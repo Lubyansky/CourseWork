@@ -1,0 +1,13 @@
+@media (min-width: 1600px) {
+    .slider__container{
+        padding-bottom: 100px;
+    }
+    .best__article{
+        padding-top: 180px;
+    
+        width: 1400px;
+        height: 560px;
+
+    }
+
+}
