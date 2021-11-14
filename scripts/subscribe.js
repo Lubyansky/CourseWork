@@ -6,7 +6,7 @@ $('#emailInput').keydown(function(e) {
         console.log("Clicked", value);
     }
 });
-$('#button1').click(function() {
+$('#buttonSubscribe').click(function() {
     var value = $("#emailInput").val();
     $("#emailInput").val("");
     console.log("Clicked", value);

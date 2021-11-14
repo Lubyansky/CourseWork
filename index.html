@@ -2,6 +2,7 @@
 <html lang = "ru">
 <head>
 	<meta charset = "UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Kiku</title>
 	<link rel="shortcut icon" href="assets/images/icon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="assets/css/normalize.css">
@@ -10,57 +11,48 @@
 	<link rel = "stylesheet" href = "assets/css/media.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script defer src="/scripts/chief-slider.min.js"></script>
-	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			var elms = document.querySelectorAll('.slider');
-			for (var i = 0, len = elms.length; i < len; i++) {
-				// инициализация elms[i] в качестве слайдера
-				new ChiefSlider('.slider', {
-					loop: true,
-					swipe: false
-				}, elms[i]);
-			}
-		});
-	</script>
 </head>
 	
 <body>
 	<header class = "header">
-		<nav class = "header__container">
-			<object class="logo"  type="image/svg+xml" data="assets/images/Logo.svg">
-				Your  browser does not support SVG 
-			</object>
-			<a class = "nav__link link" href="#">Главная</a>
-			<input type = "checkbox" id = "toggle-1">
-			<label for="toggle-1" class = "nav__link link">
-				История
-			</label>
-			<a class = "nav__link link" href="#">Материалы</a>
-			<input type = "checkbox" id = "toggle-2">
-			<label for="toggle-2" class = "nav__search"></label>
-			<script src="scripts/header-menu.js"></script>
-			<nav class = "history__menu">
-				<a class = "menu__link link1" href="#">&nbsp;· Доисторическая Япония</a>
-				<a class = "menu__link link1" href="#">&nbsp;· Родовая аристократия</a>
-				<a class = "menu__link link1" href="#">&nbsp;· Военная аристократия</a>
-				<a class = "menu__link link1" href="#">&nbsp;· Век раздора</a>
-				<a class = "menu__link link1" href="#">&nbsp;· Сёгунат Токугава</a><br>
-				<a class = "menu__link link1" href="#">&nbsp;· Модернизация</a>
-				<a class = "menu__link link1" href="#">&nbsp;· Япония в качестве Великой Державы</a>
-				<a class = "menu__link link1" href="#">&nbsp;· Современность</a>
+		<div class = "container"> 
+			<nav class = "header-container">
+				<nav class = "burger-menu" id = "buttonBurger">
+					<div class = "burger-menu__line"></div>
+					<div class = "burger-menu__line"></div>
+					<div class = "burger-menu__line"></div>
+				</nav>
+				<img class = "header__logo" src = "assets/images/logo.svg">
+				<nav class = "nav">
+
+					<a class = "nav__link" href="#">Главная</a>
+					<div class = "nav__link" id = "buttonHistory">История</div>
+					<a class = "nav__link" href="#">Материалы</a>
+
+				</nav>
+				<button class = "nav__search" id = "buttonSearch"></button>
+				<nav class = "history-menu">
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Доисторическая Япония</a>
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Родовая аристократия</a>
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Военная аристократия</a>
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Век раздора</a>
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Сёгунат Токугава</a><br>
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Модернизация</a>
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Япония в качестве Великой Державы</a>
+					<a class = "history-menu__link link_black" href="#">&nbsp;· Современность</a>
+				</nav>
+				<input class = "header__search" id = "searchInput" type="text">
 			</nav>
-			<input id = "searchInput" type="text" class = "header__search">
-			<script src="scripts/search.js"></script>
-		</nav>
+		</div>
 	</header> 
 	<main>
 		<div class = "hero">
 			<div class = "container">
 				<div class="hero__content">
-					<h1 class="hero__title">
+					<h1 class="hero__content__title">
 						История Японии
 					</h1>
-					<div class="hero__description">
+					<div class="hero__content__description">
 						Этот сайт посвящён истории Японии в разных её исторических периодах, и, позволит вам погрузиться в удивительный мир восходящего солнца
 					</div>
 				</div>
@@ -72,45 +64,45 @@
 					Лучшее
 				</h1>
 				<div class = "best__content">
-					<div class="slider">
-						<div class="slider__container">
-							<div class="slider__wrapper">
-								<div class="slider__items">
-									<div class="slider__item">
-										<a class = "slider__best__article link1" href="#">
-											<img class = "slider__best__article__picture" src = "assets/images/best/image1.png">
-											<div class = "slider__best__article__tittle">Русско-японская война</div>
-											<div class = "slider__best__article__description">Первая серьёзная военная победа после изоляции</div>
+					<div class="slider best__slider">
+						<div class="slider__container best__slider__container">
+							<div class="slider__wrapper best__slider__wrapper">
+								<div class="slider__items best__slider__items">
+									<div class="slider__item best__slider__item">
+										<a class = "best__slider__article link_black" href="#">
+											<img class = "best__slider__article-picture" src = "assets/images/best/image1.png">
+											<div class = "best__slider__article-tittle">Русско-японская война</div>
+											<div class = "best__slider__article-description">Первая серьёзная военная победа после изоляции</div>
 										</a>		
 							  		</div>
-							  		<div class="slider__item">
-										<a class = "slider__best__article link1" href="#">
-											<img class = "slider__best__article__picture" src = "assets/images/best/image2.png">
-											<div class = "slider__best__article__tittle">Появление христианства</div>
-											<div class = "slider__best__article__description">Новая учение: перспектива или угроза? </div>
+							  		<div class="slider__item best__slider__item">
+										<a class = "best__slider__article link_black" href="#">
+											<img class = "best__slider__article-picture" src = "assets/images/best/image2.png">
+											<div class = "best__slider__article-tittle">Появление христианства</div>
+											<div class = "best__slider__article-description">Новая учение: перспектива или угроза? </div>
 										</a>
 							  		</div>
-							  		<div class="slider__item">
-										<a class = "slider__best__article link1" href="#">
-											<img class = "slider__best__article__picture" src = "assets/images/best/image3.png">
-											<div class = "slider__best__article__tittle">Кодзики и нихонсёки</div>
-											<div class = "slider__best__article__description">Как появилась история Японии</div>
+							  		<div class="slider__item best__slider__item">
+										<a class = "best__slider__article link_black" href="#">
+											<img class = "best__slider__article-picture" src = "assets/images/best/image3.png">
+											<div class = "best__slider__article-tittle">Кодзики и нихонсёки</div>
+											<div class = "best__slider__article-description">Как появилась история Японии</div>
 										</a>
 							  		</div>
-							  		<div class="slider__item">
-										<a class = "slider__best__article link1" href="#">
-											<img class = "slider__best__article__picture" src = "assets/images/best/image4.png">
-											<div class = "slider__best__article__tittle">Тоётоми Хидэёси</div>
-											<div class = "slider__best__article__description">История крестьянина объеденившего Японию</div>
+							  		<div class="slider__item best__slider__item">
+										<a class = "best__slider__article link_black" href="#">
+											<img class = "best__slider__article-picture" src = "assets/images/best/image4.png">
+											<div class = "best__slider__article-tittle">Тоётоми Хидэёси</div>
+											<div class = "best__slider__article-description">История крестьянина объеденившего Японию</div>
 										</a>
 							  		</div>
 								</div>
 						  	</div>
 						</div>
-						<a href="#" class="slider__control" data-slide="prev"></a>
-						<a href="#" class="slider__control" data-slide="next"></a>
+						<a href="#" class="slider__control best__slider__control" data-slide="prev"></a>
+						<a href="#" class="slider__control best__slider__control" data-slide="next"></a>
 					</div>
-					<a class = "best__article link" href = "#">
+					<a class = "best__article link_white" href = "#">
 						<h1 class = "best__article__title">
 							Тоётоми Хидэёси
 						</h1>
@@ -122,44 +114,117 @@
 				</div>
 			</div>
 		</div>
-		<div class = "history" id="history">
+		<div class = "history">
 			<div class = "container">
 				<h1 class = "history__title">
 					Периоды
 				</h1>
 				<div class = "history__content">
-					<div class="slider">
+					<div class="slider history__slider-desk" id = "desk">
 						<div class="slider__container history__slider__container">
-							<div class="slider__wrapper">
+							<div class="slider__wrapper history__slider__wrapper">
 								<div class="slider__items history__slider__items">
+
 									<div class="slider__item history__slider__item">
-										<a class = "slider__history__period link" href="#">
-											<img class = "slider__history__period__picture" src = "assets/images/history/image1.png">
-											<div class = "slider__history__period__tittle">Сёгунат Токугава</div>
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image1.png">
+											<div class = "history__slider__period-tittle">Доисторическая Япония</div>
+										</a>
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image2.png">
+											<div class = "history__slider__period-tittle">Родовая аристократия</div>
+										</a>
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image3.png">
+											<div class = "history__slider__period-tittle">Военная аристократия</div>
 										</a>		
-							  		</div>
-							  		<div class="slider__item">
-										<a class = "slider__history__period link" href="#">
-											<img class = "slider__history__period__picture" src = "assets/images/history/image2.png">
-											<div class = "slider__history__period__tittle">Модернизация</div>
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image4.png">
+											<div class = "history__slider__period-tittle">Век раздора</div>
 										</a>
 							  		</div>
-							  		<div class="slider__item">
-										<a class = "slider_history__period link" href="#">
-											<img class = "slider__history__period__picture" src = "assets/images/history/image3.png">
-											<div class = "slider__history__period__tittle">Япония в качестве Великой Державы</div>
+
+									<div class="slider__item history__slider__item">
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image1.png">
+											<div class = "history__slider__period-tittle">Сёгунат Токугава</div>
+										</a>
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image2.png">
+											<div class = "history__slider__period-tittle">Модернизация</div>
+										</a>
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image3.png">
+											<div class = "history__slider__period-tittle">Япония в качестве Великой Державы</div>
+										</a>		
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image4.png">
+											<div class = "history__slider__period-tittle">Современность</div>
 										</a>
 							  		</div>
-							  		<div class="slider__item">
-										<a class = "slider__history__period link" href="#">
-											<img class = "slider__history__period__picture" src = "assets/images/history/image4.png">
-											<div class = "slider__history__period__tittle">Современность</div>
+
+								</div>
+						  	</div>
+						</div>
+						<a href="#" class="slider__control history__slider__control" data-slide="prev"></a>
+						<a href="#" class="slider__control history__slider__control" data-slide="next"></a>
+						<ol class="slider__indicators history__slider__indicators">
+							<li data-slide-to="0"></li>
+							<li data-slide-to="1"></li>
+						  </ol>
+					</div>
+					<div class="slider history__slider-mobile" id = "mobile">
+						<div class="slider__container history__slider__container">
+							<div class="slider__wrapper history__slider__wrapper">
+								<div class="slider__items history__slider__items">
+
+									<div class="slider__item history__slider__item">
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image1.png">
+											<div class = "history__slider__period-tittle">Доисторическая Япония</div>
+										</a>
+									</div>
+									<div class="slider__item history__slider__item">
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image2.png">
+											<div class = "history__slider__period-tittle">Родовая аристократия</div>
+										</a>
+									</div>
+									<div class="slider__item history__slider__item">
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image3.png">
+											<div class = "history__slider__period-tittle">Военная аристократия</div>
+										</a>
+									</div>
+									<div class="slider__item history__slider__item">		
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image4.png">
+											<div class = "history__slider__period-tittle">Век раздора</div>
 										</a>
 							  		</div>
-									<div class="slider__item">
-										<a class = "slider__history__period link" href="#">
-											<img class = "slider__history__period__picture" src = "assets/images/history/image4.png">
-											<div class = "slider__history__period__tittle">Современность</div>
+
+									<div class="slider__item history__slider__item">
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image1.png">
+											<div class = "history__slider__period-tittle">Сёгунат Токугава</div>
+										</a>
+									</div>
+									<div class="slider__item history__slider__item">
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image2.png">
+											<div class = "history__slider__period-tittle">Модернизация</div>
+										</a>
+									</div>
+									<div class="slider__item history__slider__item">
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image3.png">
+											<div class = "history__slider__period-tittle">Япония в качестве Великой Державы</div>
+										</a>
+									</div>
+									<div class="slider__item history__slider__item">	
+										<a class = "history__slider__period link_white" href="#">
+											<img class = "history__slider__period-picture" src = "assets/images/history/image4.png">
+											<div class = "history__slider__period-tittle">Современность</div>
 										</a>
 							  		</div>
 								</div>
@@ -168,51 +233,171 @@
 						<a href="#" class="slider__control history__slider__control" data-slide="prev"></a>
 						<a href="#" class="slider__control history__slider__control" data-slide="next"></a>
 					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class = "culture">
+			<div class = "container">
+				<h1 class = "culture__title">
+					Периоды
+				</h1>
+				<div class = "culture__content">
+					<div class="slider culture__slider-desk"  id = "desk">
+						<div class="slider__container culture__slider__container">
+							<div class="slider__wrapper culture__slider__wrapper">
+								<div class="slider__items culture__slider__items">
+
+									<div class="slider__item history__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>		
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+							  		</div>
+
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>		
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+							  		</div>
+
+								</div>
+						  	</div>
+						</div>
+						<a href="#" class="slider__control culture__slider__control" data-slide="prev"></a>
+						<a href="#" class="slider__control culture__slider__control" data-slide="next"></a>
+						<ol class="slider__indicators culture__slider__indicators">
+							<li data-slide-to="0"></li>
+							<li data-slide-to="1"></li>
+						</ol>
+					</div>
+					<div class="slider culture__slider-mobile"  id = "mobile">
+						<div class="slider__container culture__slider__container">
+							<div class="slider__wrapper culture__slider__wrapper">
+								<div class="slider__items culture__slider__items">
+
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+									<div class="slider__item culture__slider__item">
+										<a class = "culture__slider__period link_white" href="#">
+											<img class = "culture__slider__period-picture" src = "assets/images/culture/shar.png">
+											<div class = "culture__slider__period-tittle">Глав рыба</div>
+										</a>
+									</div>
+
+								</div>
+						  	</div>
+						</div>
+						<a href="#" class="slider__control culture__slider__control" data-slide="prev"></a>
+						<a href="#" class="slider__control culture__slider__control" data-slide="next"></a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</main>
 	<footer class = "footer">
 		<div class = "container">
-			<object class="logo-footer" type="image/svg+xml" data="assets/images/Logo.svg">
-					Your  browser does not support SVG 
-			</object>
-
+			<img class = "footer__logo" src = "assets/images/logo.svg">
 			<div class = "footer-container">
 				<nav class = "footer-page__socials">
 
-						<a class="footer-page__social link" href="https://www.vk.com/" rel="noopener" target="_blank">
-						<div class="footer-page__social-icon__vk"></div>
+						<a class="footer-page__social link_white" href="https://www.vk.com/" rel="noopener" target="_blank">
+						<img class="footer-page__social-icon-vk" src = "assets/images/footer/icon-vk.svg">
 						<span class="footer-page__social-title">
 							vk
 						</span>
 					</a>
-					<a class="footer-page__social link" href="https://www.ok.ru/" rel="noopener" target="_blank">
-						<div class="footer-page__social-icon__ok"></div>
+					<a class="footer-page__social link_white" href="https://www.ok.ru/" rel="noopener" target="_blank">
+						<img class="footer-page__social-icon" src = "assets/images/footer/icon-ok.svg">
 						<span class="footer-page__social-title">
 							одноклассники
 						</span>
 					</a>
-					<a class="footer-page__social link" href="https://web.telegram.org/" rel="noopener" target="_blank">
-						<div class="footer-page__social-icon__telegram"></div>
+					<a class="footer-page__social link_white" href="https://web.telegram.org/" rel="noopener" target="_blank">
+						<img class="footer-page__social-icon" src = "assets/images/footer/icon-telegram.svg">
 						<span class="footer-page__social-title">
 							telegram
 						</span>
 					</a>
-					<a class="footer-page__social link" href="https://www.twitter.com/" rel="noopener" target="_blank">
-						<div class="footer-page__social-icon__twitter"></div>
+					<a class="footer-page__social link_white" href="https://www.twitter.com/" rel="noopener" target="_blank">
+						<img class="footer-page__social-icon" src = "assets/images/footer/icon-twitter.svg">
 						<span class="footer-page__social-title">
 							twitter
 						</span>
 					</a>
-					<a class="footer-page__social link" href="https://www.instagram.com/" rel="noopener" target="_blank">
-						<div class="footer-page__social-icon__instagram"></div>
+					<a class="footer-page__social link_white" href="https://www.instagram.com/" rel="noopener" target="_blank">
+						<img class="footer-page__social-icon" src = "assets/images/footer/icon-instagram.svg">
 						<span class="footer-page__social-title">
 							instagram
 						</span>
 					</a>
 				</nav>
-				<div class="footer-page__interblock__social__line"></div>
+				<div class="footer-page__socials__interblock-line"></div>
 				<div class = "footer-page__subscribe">
 					<div class = "footer-page__subscribe-title">
 						Подписка
@@ -222,26 +407,25 @@
 					</div>
 					<div class = "footer-page__subscribe__field">
 						<input id = "emailInput" class = "footer-page__subscribe__input" type="text" placeholder="Ваш e-mail" autocomplete="off">
-						<button id = "button1" class = "footer-page__subscribe__button button-reset">
-							<script src="scripts/subscribe.js"></script>
-						</button>
+						<button id = "buttonSubscribe" class = "footer-page__subscribe__button button-reset"></button>
 					</div>
 					<div class = "footer-page__subscribe__line"></div>
 				</div>
-				<div class="footer-page__interblock__subscribe__line"></div>
+				<div class="footer-page__subscribe__interblock-line"></div>
 				<div class = "footer-page__copyright">
-					<div class = "footer-page__copyright-title">
+					<div class = "footer-page__copyright__title">
 						История Японии
 					</div>
-					<address class = "footer-page__copyright-contacts">
+					<address class = "footer-page__copyright__contacts">
 						Контакты для связи: kiku@mail.com
 					</address>
-					<div class = "footer-page__copyright-text">
+					<div class = "footer-page__copyright__text">
 						© Kiku 2021. Все права защищены
 					</div>
 				</div>
 			</div>
 		</div>
 	</footer>
+	<script src = "/scripts/script.js"></script>
 </body>
 </html>
