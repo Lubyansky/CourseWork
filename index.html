@@ -12,49 +12,54 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script defer src="/scripts/chief-slider.min.js"></script>
 </head>
-	
 <body>
 	<header class = "header">
-		<div class = "container"> 
-			<nav class = "header-container">
-				<nav class = "burger-menu" id = "buttonBurger">
-					<div class = "burger-menu__line"></div>
-					<div class = "burger-menu__line"></div>
-					<div class = "burger-menu__line"></div>
-				</nav>
-				<img class = "header__logo" src = "assets/images/logo.svg">
-				<nav class = "nav">
+		<nav class = "header-container">
+			<div class = "burger-menu" id = "buttonBurger">
+				<div class = "burger-menu__line"></div>
+				<div class = "burger-menu__line"></div>
+				<div class = "burger-menu__line"></div>
+			</div>
+			<img class = "header__logo" src = "assets/images/logo.svg">
+			<nav class = "nav">
+				<a class = "nav__link" href = "#">Главная</a>
+				<a class = "nav__link" id = "buttonHistory">История</a>
+				<a class = "nav__link" href = "#">Материалы</a>
 
-					<a class = "nav__link" href="#">Главная</a>
-					<div class = "nav__link" id = "buttonHistory">История</div>
-					<a class = "nav__link" href="#">Материалы</a>
-
-				</nav>
-				<button class = "nav__search" id = "buttonSearch"></button>
-				<nav class = "history-menu">
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Доисторическая Япония</a>
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Родовая аристократия</a>
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Военная аристократия</a>
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Век раздора</a>
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Сёгунат Токугава</a><br>
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Модернизация</a>
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Япония в качестве Великой Державы</a>
-					<a class = "history-menu__link link_black" href="#">&nbsp;· Современность</a>
-				</nav>
-				<input class = "header__search" id = "searchInput" type="text">
 			</nav>
-		</div>
+			<div class = "search">
+				<button class = "search__button-cotrol find" id = "buttonControl"></button>
+				<button class = "search__button-find" id = "buttonFind"></button>
+				<input class = "search__input" id = "searchInput" type="text">
+			</div>
+			<nav class = "history-menu">
+				<a class = "history-menu__link link_black" href="#">· Доисторическая Япония</a>
+				<a class = "history-menu__link link_black" href="#">· Родовая аристократия</a>
+				<a class = "history-menu__link link_black" href="#">· Военная аристократия</a>
+				<a class = "history-menu__link link_black" href="#">· Век раздора</a>
+				<a class = "history-menu__link link_black" href="#">· Сёгунат Токугава</a>
+				<a class = "history-menu__link link_black" href="#">· Модернизация</a>
+				<a class = "history-menu__link link_black" href="#">· Япония в качестве Великой Державы</a>
+				<a class = "history-menu__link link_black" href="#">· Современность</a>
+			</nav>
+		</nav>
 	</header> 
 	<main>
+		<div class = "backdrop"></div>
 		<div class = "hero">
 			<div class = "container">
 				<div class="hero__content">
-					<h1 class="hero__content__title">
-						История Японии
-					</h1>
-					<div class="hero__content__description">
-						Этот сайт посвящён истории Японии в разных её исторических периодах, и, позволит вам погрузиться в удивительный мир восходящего солнца
+					<div class = "hero__image1">
+						<div class = "hero__line1"></div>
+						<h1 class="hero__content__title">
+							История Японии
+						</h1>
+						<div class="hero__content__description">
+							Погрузитесь в удивительную и увлекательную историю страны восходящего солнца
+						</div>
+						<div class = "hero__line2"></div>
 					</div>
+					<img class = "hero__image2" src = "assets/images/hero/image2.svg">
 				</div>
 			</div>
 		</div>
@@ -171,7 +176,7 @@
 						<ol class="slider__indicators history__slider__indicators">
 							<li data-slide-to="0"></li>
 							<li data-slide-to="1"></li>
-						  </ol>
+						</ol>
 					</div>
 					<div class="slider history__slider-mobile" id = "mobile">
 						<div class="slider__container history__slider__container">
@@ -232,7 +237,7 @@
 						</div>
 						<a href="#" class="slider__control history__slider__control" data-slide="prev"></a>
 						<a href="#" class="slider__control history__slider__control" data-slide="next"></a>
-					</div>
+
 					</div>
 				</div>
 			</div>
@@ -361,67 +366,65 @@
 		</div>
 	</main>
 	<footer class = "footer">
-		<div class = "container">
-			<img class = "footer__logo" src = "assets/images/logo.svg">
-			<div class = "footer-container">
-				<nav class = "footer-page__socials">
+		<img class = "footer__logo" src = "assets/images/logo.svg">
+		<div class = "footer-container">
+			<nav class = "footer-page__socials">
 
-						<a class="footer-page__social link_white" href="https://www.vk.com/" rel="noopener" target="_blank">
-						<img class="footer-page__social-icon-vk" src = "assets/images/footer/icon-vk.svg">
-						<span class="footer-page__social-title">
+					<a class="footer-page__social link_white" href="https://www.vk.com/" rel="noopener" target="_blank">
+					<img class="footer-page__social-icon-vk" src = "assets/images/footer/icon-vk.svg">
+					<span class="footer-page__social-title">
 							vk
-						</span>
-					</a>
-					<a class="footer-page__social link_white" href="https://www.ok.ru/" rel="noopener" target="_blank">
-						<img class="footer-page__social-icon" src = "assets/images/footer/icon-ok.svg">
-						<span class="footer-page__social-title">
-							одноклассники
-						</span>
-					</a>
-					<a class="footer-page__social link_white" href="https://web.telegram.org/" rel="noopener" target="_blank">
-						<img class="footer-page__social-icon" src = "assets/images/footer/icon-telegram.svg">
-						<span class="footer-page__social-title">
-							telegram
-						</span>
-					</a>
-					<a class="footer-page__social link_white" href="https://www.twitter.com/" rel="noopener" target="_blank">
-						<img class="footer-page__social-icon" src = "assets/images/footer/icon-twitter.svg">
-						<span class="footer-page__social-title">
-							twitter
-						</span>
-					</a>
-					<a class="footer-page__social link_white" href="https://www.instagram.com/" rel="noopener" target="_blank">
-						<img class="footer-page__social-icon" src = "assets/images/footer/icon-instagram.svg">
-						<span class="footer-page__social-title">
-							instagram
-						</span>
-					</a>
-				</nav>
-				<div class="footer-page__socials__interblock-line"></div>
-				<div class = "footer-page__subscribe">
-					<div class = "footer-page__subscribe-title">
-						Подписка
+					</span>
+				</a>
+				<a class="footer-page__social link_white" href="https://www.ok.ru/" rel="noopener" target="_blank">
+					<img class="footer-page__social-icon" src = "assets/images/footer/icon-ok.svg">
+					<span class="footer-page__social-title">
+						одноклассники
+					</span>
+				</a>
+				<a class="footer-page__social link_white" href="https://web.telegram.org/" rel="noopener" target="_blank">
+					<img class="footer-page__social-icon" src = "assets/images/footer/icon-telegram.svg">
+					<span class="footer-page__social-title">
+						telegram
+					</span>
+				</a>
+				<a class="footer-page__social link_white" href="https://www.twitter.com/" rel="noopener" target="_blank">
+					<img class="footer-page__social-icon" src = "assets/images/footer/icon-twitter.svg">
+					<span class="footer-page__social-title">
+						twitter
+					</span>
+				</a>
+				<a class="footer-page__social link_white" href="https://www.instagram.com/" rel="noopener" target="_blank">
+					<img class="footer-page__social-icon" src = "assets/images/footer/icon-instagram.svg">
+					<span class="footer-page__social-title">
+						instagram
+					</span>
+				</a>
+			</nav>
+			<div class="footer-page__socials__interblock-line"></div>
+			<div class = "footer-page__subscribe">
+				<div class = "footer-page__subscribe-title">
+					Подписка
 					</div>
-					<div class = "footer-page__subscribe-description">
-						Оставьте ваш e-mail, чтобы получать наши новости
-					</div>
-					<div class = "footer-page__subscribe__field">
-						<input id = "emailInput" class = "footer-page__subscribe__input" type="text" placeholder="Ваш e-mail" autocomplete="off">
-						<button id = "buttonSubscribe" class = "footer-page__subscribe__button button-reset"></button>
-					</div>
+				<div class = "footer-page__subscribe-description">
+					Оставьте ваш e-mail, чтобы получать наши новости
+				</div>
+				<div class = "footer-page__subscribe__field">
+					<input id = "emailInput" class = "footer-page__subscribe__input" type="text" placeholder="Ваш e-mail" autocomplete="off">
+					<button id = "buttonSubscribe" class = "footer-page__subscribe__button button-reset"></button>
 					<div class = "footer-page__subscribe__line"></div>
 				</div>
-				<div class="footer-page__subscribe__interblock-line"></div>
-				<div class = "footer-page__copyright">
-					<div class = "footer-page__copyright__title">
-						История Японии
-					</div>
-					<address class = "footer-page__copyright__contacts">
-						Контакты для связи: kiku@mail.com
-					</address>
-					<div class = "footer-page__copyright__text">
-						© Kiku 2021. Все права защищены
-					</div>
+			</div>
+			<div class="footer-page__subscribe__interblock-line"></div>
+			<div class = "footer-page__copyright">
+				<div class = "footer-page__copyright__title">
+					История Японии
+				</div>
+				<address class = "footer-page__copyright__contacts">
+					Контакты для связи: kiku@mail.com
+				</address>
+				<div class = "footer-page__copyright__text">
+					© Kiku 2021. Все права защищены
 				</div>
 			</div>
 		</div>
