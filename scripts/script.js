@@ -204,3 +204,20 @@ $('#buttonSubscribe').click(function() {
     $("#emailInput").val("");
     console.log("Enter:", value);
 });
+
+//ТЕГИ
+
+$('.tags__tag').click(function(){
+    if ( $(this).closest('.tags__tag').length) {
+
+        if($(this).hasClass('unpressed')){
+            $(this).removeClass('unpressed');
+            $(this).addClass('pressed');
+        }
+        else if ($(this).hasClass('pressed'))
+        {
+            $(this).removeClass('pressed');
+            $(this).addClass('unpressed');
+        }
+    }
+});
