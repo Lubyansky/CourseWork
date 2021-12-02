@@ -1,34 +1,3 @@
-//ДОБАВИТЬ СЛАЙДЕРЫ
-document.addEventListener('DOMContentLoaded', function () {
-    const slider = new ChiefSlider('.best__slider', {
-        loop: true,
-        swipe: false
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const slider = new ChiefSlider('.history__slider-desk', {
-        loop: true,
-        swipe: false
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const slider = new ChiefSlider('.history__slider-mobile', {
-        loop: true,
-        swipe: false
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const slider = new ChiefSlider('.culture__slider-desk', {
-        loop: true,
-        swipe: false
-    });
-});
-document.addEventListener('DOMContentLoaded', function () {
-    const slider = new ChiefSlider('.culture__slider-mobile', {
-        loop: true,
-        swipe: false
-    });
-});
 //УБРАТЬ/ПОКАЗАТЬ НАВИГАЦИЮ ПРИ ИЗМЕНЕНИИ РАЗМЕРОВ ОКНА
 $(window).resize(function(){
     if ($(window).width() > 992) {
