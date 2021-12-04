@@ -851,12 +851,15 @@
     .hero__content {
         margin-top: 110px;
     }    
-    .hero__image1{
+    .hero__container{
         height: 471px;
         background-image: url("../images/hero/Image2.png");
         background-position: top;
         background-size: cover;
         background-repeat: no-repeat;
+    }
+    .hero__image1{
+        display: none;
     }
     .hero__content__title{
         padding-top: 70px;
