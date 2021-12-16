@@ -18,16 +18,16 @@
                     </div>
                 </div>
                 <div class = "article__paragraph" v-for = "n in length">
-                    <h1 class = "content__article-title" v-if = "n - 1 === 0">{{article.name}}:<br>{{article.desk}}</h1>
+                    <h1 class = "content__article-title" v-if = "n - 1 === 0">{{article.name}}:<br>{{article.desc}}</h1>
                     <h2 class = "paragraph__title" v-else>{{article.titles[n - 2]}}</h2>
                     <div class = "paragraph__text" v-for = "paragraph in article.paragraphs" v-if = "paragraph[0] == n - 1">
                         <br><p>{{paragraph[1]}}</p>
                     </div>
-                </div>
-                <div class = "article__picture">
-                    <img class = article__picture-image src="/assets/images/article/Toyotomi_hideyoshi.jpg" alt = "Изображение 1">
-                    <div class = "picture-image__signature">Портрет Тоётоми Хидэёси, часть (владения Кодай-дзи)</div>
-                    <div class = "picture-image__copyright">Храм Кодай-дзи, Киото</div>
+                    <div class = "article__picture" v-if = "article.pictures[n - 1] != null">
+                        <img class = article__picture-image v-bind:src="article.pictures[n - 1]" alt = "Изображение">
+                        <div class = "picture-image__signature">{{article.pictures_desc[n - 1]}}</div>
+                        <div class = "picture-image__copyright">{{article.pictures_copyright[n - 1]}}</div>
+                    </div>
                 </div>
                 <div class = "article__sources">
                     <div class = "sources__title">Источники и литература</div>
@@ -36,13 +36,13 @@
 					</div>
                 </div>
 				<div class = "article__share">
-					<a class = "share__link link_black" href = "http://vk.com/share.php?url=[URL]&title=[TITLE]&description=[DESC]&image=[IMAGE]&noparse=true" target="_blank">
+					<a class = "share__link link_black" v-bind:href = "'http://vk.com/share.php?url='+ URI + '&title=' + article.name + '&description=' + article.desc + '&image=http://5.206.92.193:5500/' + article.preview_image + '&noparse=true'" target="_blank">
 						<img class="share__link-icon" src = "/assets/images/social/share_icon-vk.svg" alt="Иконка вконтакте">
 					</a>
-					<a class = "share__link link_black" href = "http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&st._surl=[URL]&st.comments=[TITLE]" target="_blank">
+					<a class = "share__link link_black" v-bind:href = "'http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&st._surl=' + URI + '&st.comments=' + article.name" target="_blank">
 						<img class="share__link-icon" src = "/assets/images/social/share_icon-ok.svg" alt="Иконка одноклассники">
 					</a>
-					<a class = "share__link link_black" href = "https://twitter.com/share?url=[URL]&text=[TITLE]" target="_blank">
+					<a class = "share__link link_black" v-bind:href = "'https://twitter.com/share?url=' + URI + '&text=' + article.name" target="_blank">
 						<img class="share__link-icon" src = "/assets/images/social/share_icon-twitter.svg" alt="Иконка твиттер">
 					</a>
 				</div>
@@ -50,6 +50,6 @@
         </div>
 	</main>
 	<%- include('./partials/footer'); %>
-    <script src = "/assets/scripts/script.js"></script>
+    <script type="module" src = "/assets/scripts/article.js"></script>
 </body>
 </html>
