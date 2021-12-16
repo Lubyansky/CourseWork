@@ -1,0 +1,30 @@
+<header class = "header">
+    <nav class = "header-container">
+        <div class = "burger-menu" id = "buttonBurger">
+            <div class = "burger-menu__line"></div>
+            <div class = "burger-menu__line"></div>
+            <div class = "burger-menu__line"></div>
+        </div>
+        <img class = "header__logo" src = "/assets/images/logo.svg" alt="Лого">
+        <nav class = "nav">
+            <a class = "nav__link" href = "/">Главная</a>
+            <a class = "nav__link" id = "buttonHistory">История</a>
+            <a class = "nav__link" href = "/periods">Материалы</a>
+        </nav>
+        <button class = "search__button-cotrol find" id = "buttonControl"></button>
+        <form class = "search__container" id = "Find" @submit.prevent="toSearch">
+            <button class = "search__button-find" id = "buttonFind" type = "submit"></button>
+            <input class = "search__input" id = "searchInput" type="text" v-model="form.searchInput">
+        </form>
+        <nav class = "history-menu">
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Доисторическая&nbsp;Япония</a>
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Эра&nbsp;родовой&nbsp;аристократии</a>
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Эра&nbsp;военной&nbsp;аристократии</a>
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Век&nbsp;раздора</a>
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Сёгунат&nbsp;Токугава</a>
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Модернизация</a>
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Япония&nbsp;в&nbsp;качестве&nbsp;Великой&nbsp;Державы</a>
+            <a class = "history-menu__link link_black" href="#">·&nbsp;Современность</a>
+        </nav>
+    </nav>
+</header> 

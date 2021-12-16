@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <%- include('./partials/head'); %>
+</head>
+<body>
+	<%- include('./partials/header'); %>
+	<main>
+		<div class = "backdrop"></div>
+		<div class = "articles" id = "Articles" v-cloak>
+			<div class = "articles__container">
+				<h1 class = "articles__title">История Японии</h1>
+				<nav class = "articles__tags"> 
+					<div class = "tags__tag unpressed">Доисторическая Япония</div>
+					<div class = "tags__tag unpressed">Эра родовая аристократии</div>
+					<div class = "tags__tag unpressed">Эра военной аристократии</div>
+					<div class = "tags__tag unpressed">Эпоха воюющих провинций</div>
+					<div class = "tags__tag unpressed">Сёгунат Токугава</div>
+					<div class = "tags__tag unpressed">Модернизация</div>
+					<div class = "tags__tag unpressed">Япония в качестве<br>Великой Державы</div>
+					<div class = "tags__tag unpressed">Современность</div>
+				</nav>
+				<h2 class = "articles__found-articles">Найденые статьи</h2>
+				<div class = "articles__content" v-for="article in articles">
+					<a class = "articles__article link_black" v-bind:href = "'/article/' + article.article_id">
+						<img class = "articles__article-picture" width="478" height="268" v-bind:src = "article.preview_image" alt="Изображение">
+						<div class = "articles__article-info">
+							<h3 class = "articles__article-title">{{article.name}}</h3>
+							<div class = "articles__article-desk">{{article.desk}}</div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</main>
+	<%- include('./partials/footer'); %>
+    <script src = "/assets/scripts/script.js"></script>
+</body>
+</html>
