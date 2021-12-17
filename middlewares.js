@@ -1,11 +1,15 @@
-function requestTime(req, res, next) {
-  req.requestTime = Date.now()
-  next()
+//Вывод в терминал информации о совершенных запросах (время и url)
+
+class Middlewares {
+  requestTime(req, res, next) {
+    var date = new Date(Date.now())
+    req.requestTime = date.toString() 
+    next()
+  }
+  logger(req, res, next) {
+    console.log(`Req.time: ${req.requestTime}\n url: ${req.url}`)
+    next()
+  }
 }
 
-function logger(req, res, next) {
-  console.log(`Req.time: ${req.requestTime}`)
-  next()
-}
-
-module.exports = requestTime, logger
+module.exports = new Middlewares()

@@ -1,8 +1,9 @@
-@media (max-width: 1400px) {
-    
-    .nav
-    {
-        padding-left: 28%;
+
+
+@media (max-width: 1476px) {
+    .history-menu{
+        padding-left: 105px;
+	    padding-right: 105px;
     }
     .best__article::after{
         width: 35%;
@@ -13,18 +14,16 @@
     }
 }
 
-@media (max-width: 1272px) {
-    .nav
-    {
-        padding-left: 30%;
-    }
 
+
+@media (max-width: 1266px) {
     .history-menu{
-        height:95px
+        height:105px
     }
     .history-menu::after{
-        top: 95px;
+        top: 105px;
     }
+
     .hero__content__title{
         padding-top: 185px;
         font-size: 42px;
@@ -114,20 +113,16 @@
     }
 }
 
-@media (max-width: 1096px) {
-    .history-menu{
-        height:115px
-    }
-    .history-menu::after{
-        top: 115px;
-    }
+@media (max-width: 1082px) {
     .articles__container{
         background-color: #FFF6F6;
     }
-    
 }
 
 @media (max-width: 992px) {
+    #buttonHistory{
+        display: none;
+    }
     #desk{
         display: none;
     }
@@ -151,10 +146,12 @@
     }
     .nav{
         display: none;
+        position: absolute;
 
-        padding-left: 0;
-        padding-right: 0;
+        padding: 0;
+        margin: 0;
         top: 80px;
+        left: 0px;
 
         width: 100%;
         z-index: 999;
@@ -167,7 +164,7 @@
     .nav::before{
         content: "";
         position: absolute;
-        top: 225px;
+        top: 100%;
         left: 0;
     
         width: 100%;
@@ -543,7 +540,7 @@
     }
     
     .article__picture{
-        padding-top: 10px;
+        padding-top: 30px;
 	    padding-bottom:15px;
         padding-left: 15px;
         padding-right: 15px;
@@ -593,7 +590,7 @@
         padding-left: 15px;
         padding-right: 15px;
         margin-top: 42.5px;
-        margin-bottom: 52px;
+        margin-bottom: 72px;
 
         display: flex;
         flex-flow: column;
@@ -605,7 +602,7 @@
         position: absolute;
         content: "";
         left:15px;
-        bottom: -14px;
+        bottom: -25px;
         width: calc(100% - 30px);
         height: 1px;
         background-color: #A5A5A5;
@@ -622,7 +619,7 @@
     }
     
     .sources__title{
-        padding-bottom: 14px;
+        padding-bottom: 25px;
         position: relative;
         max-width: 100%;
         width: 100%;
@@ -721,24 +718,31 @@
         font-size: 24px;
         line-height: 27px;
     }
+
+    .articles__found-articles_none{
+        font-size: 18px;
+    }
     
     .articles__article{
-        margin-bottom: 70px;
+        padding-bottom: 50px;
         margin-left: auto;
         margin-right: auto;
 
         max-width: 495px;
 
-        flex-flow: column;
     }
     
+    .article__container{
+        flex-flow: column;
+    }
+
     .articles__article::after{
         position: absolute;
         content: "";
         max-width: 495px;
         width: 100%;
         height: 1px;
-        top: calc(100% + 20px);
+        top: calc(100% + -50px);
         background-color: #000000;
     }
     .articles__article-info{
@@ -762,10 +766,13 @@
     }
     
     .articles__article-desc{
+        padding-bottom: 20px;
         text-align: center;
         padding-top: 20px;
         font-size: 16px;
         line-height: 18px;
+
+        max-width: none;
     }
 }
 @media (max-width: 768px) {

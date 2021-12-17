@@ -1,0 +1,64 @@
+<footer class = "footer">
+    <img class = "footer__logo" src = "/assets/images/logo.svg" alt="Лого">
+    <div class = "footer-container">
+        <nav class = "footer-page__socials">
+            <a class="footer-page__social link_white" href="https://www.vk.com/" rel="noopener" target="_blank">
+                <img class="footer-page__social-icon-vk" src = "/assets/images/social/icon-vk.svg" alt="Иконка вконтакте">
+                <span class="footer-page__social-title">
+                        vk
+                </span>
+            </a>
+            <a class="footer-page__social link_white" href="https://www.ok.ru/" rel="noopener" target="_blank">
+                <img class="footer-page__social-icon" src = "/assets/images/social/icon-ok.svg" alt="Иконка одноклассники">
+                <span class="footer-page__social-title">
+                    одноклассники
+                </span>
+            </a>
+            <a class="footer-page__social link_white" href="https://web.telegram.org/" rel="noopener" target="_blank">
+                <img class="footer-page__social-icon" src = "/assets/images/social/icon-telegram.svg" alt="Иконка телеграм">
+                <span class="footer-page__social-title">
+                    telegram
+                </span>
+            </a>
+            <a class="footer-page__social link_white" href="https://www.twitter.com/" rel="noopener" target="_blank">
+                <img class="footer-page__social-icon" src = "/assets/images/social/icon-twitter.svg" alt="Иконка твиттер">
+                <span class="footer-page__social-title">
+                    twitter
+                </span>
+            </a>
+            <a class="footer-page__social link_white" href="https://www.instagram.com/" rel="noopener" target="_blank">
+                <img class="footer-page__social-icon" src = "/assets/images/social/icon-instagram.svg" alt="Иконка инстаграм">
+                <span class="footer-page__social-title">
+                    instagram
+                </span>
+            </a>
+        </nav>
+        <div class="footer-page__socials__interblock-line"></div>
+        <div class = "footer-page__subscribe">
+            <div class = "footer-page__subscribe-title">
+                Подписка
+                </div>
+            <div class = "footer-page__subscribe-description">
+                Оставьте ваш e-mail, чтобы получать наши новости
+            </div>
+            <form class = "footer-page__subscribe__field" id = "Subscribe" @submit.prevent="makeSubscribe" v-cloak>
+                <input id = "emailInput" class = "footer-page__subscribe__input" id = "email" type="text" placeholder="Ваш e-mail" autocomplete="off" v-model="form.email">
+                <button id = "buttonSubscribe" class = "footer-page__subscribe__button button-reset" type = "submit" :disabled = "!canAdd"></button>
+                <div class = "footer-page__subscribe__line"></div>
+            </form>
+        </div>
+        <div class="footer-page__subscribe__interblock-line"></div>
+        <div class = "footer-page__copyright">
+            <div class = "footer-page__copyright__title">
+                История Японии
+            </div>
+            <address class = "footer-page__copyright__contacts">
+                Контакты для связи: kiku@mail.com
+            </address>
+            <div class = "footer-page__copyright__text">
+                © Kiku 2021. Все права защищены
+            </div>
+        </div>
+    </div>
+</footer>
+<script type="module" src = "/assets/scripts/partials.js"></script>

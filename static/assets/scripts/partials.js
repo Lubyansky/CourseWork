@@ -9,6 +9,11 @@ new Vue({
       }
     }
   },
+  computed: {
+    canAdd() {
+      return this.form.email.trim()
+    }
+  },
   methods: {
     async makeSubscribe(){
       const {...subscriber} = this.form
@@ -55,6 +60,10 @@ $(window).resize(function(){
       $('#desk').each(function () {
           $(this).css({ "display": 'block'});
       });
+      $('#buttonHistory').each(function () {
+        $(this).css({ "display": 'block'});
+      });
+      $('.backdrop').css({ "opacity": '100', "left": '-100%'});
   }
   else if ($(window).width() <= 992) {
       $('.nav').css({ "display": 'none'});
@@ -64,6 +73,9 @@ $(window).resize(function(){
       });
       $('#desk').each(function () {
           $(this).css({ "display": 'none'});
+      });
+      $('#buttonHistory').each(function () {
+        $(this).css({ "display": 'none'});
       });
       $('.history-menu').each(function () {
           $(this).css({ "display": 'none'});

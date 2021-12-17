@@ -4,18 +4,26 @@ var vm = new Vue({
     el: '#Articles',
     data(){
       return{
+        loading: false,
         articles: []
       }
     },
     methods: {
       async tagPressed(Tag){
+        this.loading = true
         const response = await fetch("/api/articles/" + Tag)
         const data = await response.json()
         if(data[0] != undefined){
-          this.articles.push(data[0])
+          for(var i in data)
+          {
+            this.articles.push(data[i])
+          }
         }
+        this.loading = false
+        console.log("Pressed tag: " + Tag)
       },
       async tagUnpressed(Tag){
+        this.loading = true
         if(this.articles.length > 0) {
           let temp = [];
           for(let article in this.articles)
@@ -24,22 +32,27 @@ var vm = new Vue({
           }
           this.articles = temp
         }
+        this.loading = false
+        console.log("Unpressed tag: " + Tag)
       }
     },
     async mounted() {
+      //Вывести все статьи
       /*const response = await fetch("/api/articles")
       const data = await response.json()
       this.articles = data*/
-      let uri = window.location.href.split('/')
-      let inquiry = uri[uri.length - 1].split('?')
-      if(inquiry.length === 2){
-        let tag = inquiry[1]
+
+      this.loading = true
+      var url = new URL(window.location.href);
+      var tags = []
+      tags = url.searchParams.getAll("tag");
+      console.log("Selected tags: " + tags)
+      tags.forEach(tag => {
         $("#"+tag).removeClass('unpressed');
         $("#"+tag).addClass('pressed');
         this.tagPressed(tag);
-      }
-      console.log(uri)
-      console.log(inquiry)
+      });
+      this.loading = false
     } 
 
 })
