@@ -15,6 +15,7 @@ new Vue({
       this.loadingArticle = true
       const response1 = await fetch("/api/best-articles")
       const data1 = await response1.json()
+      
       this.articles = data1
       this.loadingSlider = false
 
