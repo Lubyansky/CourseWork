@@ -1,18 +1,18 @@
 <template>
   <div class = "app__container">
-    <KikuHeader/>
+    <CustomHeader/>
     <!--div :class = "{backdrop_hidden : !isDrop}" class = "backdrop"></div-->
     <router-view></router-view>
-    <KikuFooter/>
+    <CustomFooter/>
   </div>
 </template>
 
 <script>
-import KikuHeader from "@/components/KikuHeader"
-import KikuFooter from "@/components/KikuFooter"
+import CustomHeader from "@/components/CustomHeader"
+import CustomFooter from "@/components/CustomFooter"
 export default {
   components: {
-    KikuHeader, KikuFooter
+    CustomHeader, CustomFooter
   },
   data(){
     return{

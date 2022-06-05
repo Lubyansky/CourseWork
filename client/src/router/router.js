@@ -4,8 +4,8 @@ import Main from "@/pages/Main"
 import Profile from "@/pages/Profile"
 import Periods from "@/pages/Periods"
 import Article from "@/pages/Article"
-import Article_Management from "@/pages/Article_Management"
-import Article_Editing from "@/pages/Article_Editing"
+import ArticleManagement from "@/pages/Article_Management"
+import ArticleEditing from "@/pages/Article_Editing"
 import Error from "@/pages/Error"
 import Test from "@/pages/Test"
 
@@ -33,12 +33,12 @@ const routes = [
     {
         path: '/article_management',
         name:'article_management',
-        component: Article_Management
+        component: ArticleManagement
     },
     {
         path: '/article_editing',
         name:'article_editing',
-        component: Article_Editing
+        component: ArticleEditing
     },
     {
         path: '/:pathMatch(.*)*',

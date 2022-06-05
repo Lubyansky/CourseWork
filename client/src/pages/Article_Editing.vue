@@ -4,7 +4,7 @@
       <div class = "loader"></div>
     </div>
     <form class = "editing__container" v-else>
-      <h1 class = "editing__title">Новая статья</h1>
+      <h1 class = "editing__title">{{isEdit ? 'Редактировать' : 'Новая статья'}}</h1>
       <div class = "editing__general-information">
         <h2 class = "general-information__title">Общая информация</h2>
         <h3 class = "general-information__item-title">Название</h3>
@@ -375,16 +375,16 @@ export default {
     // ОТЛАДКА, УДАЛИТЬ
     this.article = {
       info: {
-          title: 'Сэкс',
-          description: 'Трах',
+          title: 'Заголовок',
+          description: 'Описание',
           tag: 'tag8',
           preview_image: 'https://cdnn21.img.ria.ru/images/156038/25/1560382524_0:162:3068:1888_1920x0_80_0_0_be78d9435c38e0064bd674438fec2c12.jpg'
         },
         content: [
           {
             paragraphs: [
-              {body:'AAAA JAPAN'}, 
-              {body:'Кринжанул'}
+              {body:'Параграф 1'}, 
+              {body:'Параграф 2'}
             ],
             picture: {
               url: 'https://cdnn21.img.ria.ru/images/156038/25/1560382524_0:162:3068:1888_1920x0_80_0_0_be78d9435c38e0064bd674438fec2c12.jpg',
@@ -393,9 +393,9 @@ export default {
             },
           },
           {
-            title: 'Weeaboo',
+            title: 'Подзаголовок',
             paragraphs: [
-              {body: 'чсмсчмчсммчс'}
+              {body: 'Параграф 1'}
             ],
             picture: {
               url: '',
@@ -405,9 +405,9 @@ export default {
           }
         ],
         sources: [
-          {body: "Cringe"},
-          {body: "Based"},
-          {body: "LMAO"}
+          {body: "Источник 1"},
+          {body: "Источник 2"},
+          {body: "Источник 3"}
         ]
     }
     //Добавляем теги
@@ -642,8 +642,5 @@ autosize($('textarea'));
       font-size: 18px;
       line-height: 20px;
       color: #1d6923;
-    }
-    .first-input{
-      padding-right: 48px;
     }
 </style>

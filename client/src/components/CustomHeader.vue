@@ -18,9 +18,9 @@
         <div v-click-outside="SearchIsOpenClickOutside">
             <button class = "search__button-cotrol find" @click="SearchControl"></button>
             <form class = "search__container" v-show="SearchIsOpen">
-                <input class = "search__input" type="text" :value = "search" @input = "search = $event.target.value">
+                <input class = "search__input" type="text" :value = "query" @input = "query = $event.target.value">
             </form>
-            <div  class = "search__results">
+            <div class = "search__results" v-show = "searchResults">
                 <div class = "search__results__container">
                     <a class = "search__result" v-for="result in searchResults" :key="result" :href="result.link">{{result.title}}</a>
                 </div>
@@ -94,7 +94,7 @@ export default {
         searchInput: ''
       },
       canAddArticles: false,
-      search: null,
+      query: null,
       searchResults: null
     }
   },
@@ -289,16 +289,16 @@ export default {
         )
     },
     watch: {
-        async search(){
-            if(this.search){
+        async query(){
+            if(this.query){
                 var result = []
                 /*this.temp_articles.forEach(article =>{
                     if(article.info.title.toLowerCase().trim().includes(this.search.toLowerCase().trim())){
                         sort_articles.push(article)
                     }
                 })*/
-                if(this.search.toLowerCase().trim().substring(0,1) == "@" && this.search.toLowerCase().trim().substring(1,this.search.length)){
-                    const url = (this.URL.USER + "/get_user_by_name/" + this.search.toLowerCase().trim().substring(1,this.search.length))
+                if(this.query.toLowerCase().trim().substring(0,1) == "@" && this.query.toLowerCase().trim().substring(1,this.query.length)){
+                    const url = (this.URL.USER + "/get_user_by_name/" + this.query.toLowerCase().trim().substring(1,this.query.length))
                     await axios.get(url).then(res => {
                         if(res.data.length){
                             res.data.forEach(data =>{
@@ -309,11 +309,11 @@ export default {
                 }
                 else{
                     this.tags.forEach(tag => {
-                        if(tag.title.toLowerCase().trim().includes(this.search.toLowerCase().trim())){
+                        if(tag.title.toLowerCase().trim().includes(this.query.toLowerCase().trim())){
                             result.push({title: tag.title + " [Период]", link: '/periods?tags=' + tag.id})
                         }
                     })
-                    const url = (this.URL.API + "/articles_by_title/" + this.search.toLowerCase().trim())
+                    const url = (this.URL.API + "/articles_by_title/" + this.query.toLowerCase().trim())
                     await axios.get(url).then(res => {
                         if(res.data.length){
                             res.data.forEach(data =>{
@@ -322,7 +322,7 @@ export default {
                         }
                     })
                 }
-                if(this.search)
+                if(this.query)
                     this.searchResults = result
             }
             else{
@@ -332,156 +332,6 @@ export default {
     }
 }
 
-/*
-//УБРАТЬ/ПОКАЗАТЬ НАВИГАЦИЮ ПРИ ИЗМЕНЕНИИ РАЗМЕРОВ ОКНА
-$(window).resize(function(){
-  if ($(window).width() > 992) {
-      $('.nav').css({ "display": 'flex'});
-      $('#mobile').each(function () {
-          $(this).css({ "display": 'none'});
-      });
-      $('#desk').each(function () {
-          $(this).css({ "display": 'block'});
-      });
-      $('#buttonHistory').each(function () {
-        $(this).css({ "display": 'block'});
-      });
-      $('.backdrop').css({ "opacity": '100', "left": '-100%'});
-  }
-  else if ($(window).width() <= 992) {
-      $('.nav').css({ "display": 'none'});
-      $('.backdrop').css({ "opacity": '0', "left": '-100%'});
-      $('#mobile').each(function () {
-          $(this).css({ "display": 'block'});
-      });
-      $('#desk').each(function () {
-          $(this).css({ "display": 'none'});
-      });
-      $('#buttonHistory').each(function () {
-        $(this).css({ "display": 'none'});
-      });
-      $('.history-menu').each(function () {
-          $(this).css({ "display": 'none'});
-      });
-  }
-});*/
-
-/*$(document).mouseup(function (e){ 
-
-  //ПОИСК
-  if ( $(e.target).closest('#buttonControl').length) {
-
-      if( $('.history-menu').css("display") === 'flex'){
-          $('.history-menu').css({ "display": 'none'});
-      }
-      
-      if ($(window).width() <= '992'){
-          if( $('.nav').css("display") === 'flex'){
-              $('.nav').css({ "display": 'none'});
-              $('.backdrop').css({ "opacity": '0', "left": '-100%'});
-              $('.header').css({ "z-index": '0'});
-          }
-      } 
-
-      if( $('#searchInput').css("display") === 'none'){
-          $('#searchInput').css({ "display": 'block'});
-          $('#buttonFind').css({ "display": 'block'});
-          $('#buttonControl').removeClass('find');
-          $('#buttonControl').addClass('close');
-          $('.header').css({ "z-index": '100'});
-          $('#searchInput').focus();
-      }
-      else if ( $('#searchInput').css("display") === 'block')
-      {
-          $("#searchInput").val("");
-          $('#searchInput').css({ "display": 'none'});
-          $('#buttonFind').css({ "display": 'none'});
-          $('#buttonControl').removeClass('close');
-          $('#buttonControl').addClass('find');
-          $('.header').css({ "z-index": '0'});
-      }
-  }
-  //ПОДМЕНЮ ПЕРИОДЫ
-  else if ( ($(e.target).closest('#buttonHistory').length)) {
-      if( $('#searchInput').css("display") === 'block'){
-          $("#searchInput").val("");
-          $('#searchInput').css({ "display": 'none'});
-          $('#buttonFind').css({ "display": 'none'});
-          $('#buttonControl').removeClass('close');
-          $('#buttonControl').addClass('find');
-          $('.header').css({ "z-index": '0'});
-      }
-      if ($(window).width() <= '992'){
-          if( $('.nav').css("display") === 'flex'){
-              $('.nav').css({ "display": 'none'});
-              $('.backdrop').css({ "opacity": '0', "left": '-100%'});
-              $('.header').css({ "z-index": '0'});
-          }
-          document.location.href = "#";
-      }
-      else if ($(window).width() > '992'){
-          if( $('.history-menu').css("display") === 'none'){
-              $('.history-menu').css({ "display": 'flex'});
-              $('.header').css({ "z-index": '100'});
-          }
-          else if ( $('.history-menu').css("display") === 'flex')
-          {
-              $('.history-menu').css({ "display": 'none'});
-              $('.header').css({ "z-index": '0'});
-          }
-      }
-
-  }
-  //БУРГЕР
-  else if ( $(e.target).closest('#buttonBurger').length) {
-
-      if( $('#searchInput').css("display") === 'block'){
-          $("#searchInput").val("");
-          $('#searchInput').css({ "display": 'none'});
-          $('#buttonFind').css({ "display": 'none'});
-          $('#buttonControl').removeClass('close');
-          $('#buttonControl').addClass('find');
-          $('.header').css({ "z-index": '0'});
-      }
-
-      if( $('.nav').css("display") === 'none'){
-          $('.nav').css({ "display": 'flex'});
-          $('.backdrop').css({ "opacity": '1', "left": '0'});
-          $('.header').css({ "z-index": '101'});
-      }
-      else if ( $('.nav').css("display") === 'flex')
-      {
-          $('.nav').css({ "display": 'none'});
-          $('.backdrop').css({ "opacity": '0', "left": '-100%'});
-          $('.header').css({ "z-index": '0'});
-      }
-  }
-  //ЛЮБАЯ ДРУГАЯ ОБЛАСТЬ
-  else{
-      if(!($(e.target).closest('.search__input').length 
-      || $(e.target).closest('.history-menu').length 
-      && !$(e.target).closest('.history-menu__link').length)) {
-          if( $('.history-menu').css("display") === 'block'){
-              $('.history-menu').css({ "display": 'none'});
-              $('.header').css({ "z-index": '0'});
-          }
-          if( $('#searchInput').css("display") === 'block'){
-              $('#searchInput').css({ "display": 'none'});
-              $('#buttonFind').css({ "display": 'none'});
-              $('#buttonControl').removeClass('close');
-              $('#buttonControl').addClass('find');
-              $('.header').css({ "z-index": '0'});
-          }
-          if ($(window).width() <= '992'){
-              if( $('.nav').css("display") === 'flex'){
-                  $('.nav').css({ "display": 'none'});
-                  $('.backdrop').css({ "opacity": '0', "left": '-100%'});
-                  $('.header').css({ "z-index": '0'});
-              }
-          } 
-      }
-  }
-});*/
 </script>
 
 <style>
@@ -881,7 +731,6 @@ $(window).resize(function(){
     }
 
     .search__results__container::-webkit-scrollbar-track {
-        /*-webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;*/
         background-color: #FFF6F6;
         border: none;
     }
@@ -889,9 +738,6 @@ $(window).resize(function(){
     .search__results__container::-webkit-scrollbar-thumb {
         background-color: #8D0909;
         border: none;
-        /*background-image: -webkit-gradient(linear, 0 0, 0 100%,
-                        color-stop(.5, rgba(255, 255, 255, .25)),
-                        color-stop(.5, transparent), to(transparent));*/
     }
     .search__result{
         padding-left: 50px;
@@ -944,7 +790,6 @@ $(window).resize(function(){
         width: 100%;
         height: auto;
 
-        /*z-index: 10;*/
         z-index: 9999;
         justify-content: center;
         flex-flow: wrap;
@@ -979,5 +824,141 @@ $(window).resize(function(){
 
     .history-menu__link:hover {
         color: #DCA600;
+    }
+
+    @media (max-width: 1476px) {
+        .history-menu{
+            padding-left: 105px;
+            padding-right: 105px;
+        }
+    }
+    @media (max-width: 1266px) {
+        .history-menu{
+            height:105px
+        }
+        .history-menu::after{
+            top: 105px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        #buttonHistory{
+            display: none;
+        }
+
+        .header-container{
+            height: 65px;
+            padding-bottom:0;
+        }
+        .header__logo {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 10px;
+            width: 165px;
+        }
+        .burger-menu {
+            display: flex;
+            margin-top: 9px;
+        }
+        .nav{
+            display: none;
+            position: absolute;
+
+            padding: 0;
+            margin: 0;
+            top: 80px;
+            left: 0px;
+
+            width: 100%;
+            z-index: 999;
+            background-color: #8D0909;
+            background-position:top;
+            background-size: 100vw;
+            background-repeat: no-repeat;
+            flex-flow:column;
+        }
+        .nav::before{
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+        
+            width: 100%;
+            height: 2px;
+        
+            background-color: #A5A5A5;
+        
+            z-index: 50;
+        }
+        .nav__link{
+            padding-top: 24px;
+            width: 100%;
+            height: 75px;
+            width: 100vw;
+            font-size: 24px;
+        }
+        .nav__link:hover::after {
+            display: none;
+        }
+        .nav__link::before{
+            content: "";
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        
+            width: 100vw;
+            height: 2px;
+        
+            background-color: #A5A5A5;
+        
+            z-index: 50;
+        }
+        .search__button-cotrol{
+            top: 25px;
+        }
+
+        .search__results{
+            position: absolute;
+            left: 0px;
+            top: 140px;
+            width: 100vw;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .header-container {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .burger__menu {
+            margin-top: 13px;
+        }
+        .search__button-find {
+            right: 15px;
+        }
+        .search__button-cotrol.find{
+            right: 15px;
+        }
+        .search__button-cotrol.close{
+            margin-right: 15px;
+        }
+        .search__input {
+            padding-left:15px;
+            padding-right:65px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .nav__link{
+            padding-top: 12.5px;
+            height: 50px;
+            font-size: 20px;
+        }
+        .nav__link::before{
+            top: 0px;
+        }
+        .nav::before{
+            top: 150px;
+        }
     }
 </style>

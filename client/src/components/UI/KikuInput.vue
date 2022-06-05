@@ -30,4 +30,7 @@ export default {
     .profile__item-input{
         width: 95%;
     }
+    .first-input{
+      padding-right: 48px;
+    }
 </style>
