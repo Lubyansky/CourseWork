@@ -57,8 +57,8 @@ class ArticleContoller {
   }
   async addArticle(req, res, next) {
     try {
-      const {id: user_id, roles} = req.user
-      const {title, description, tag, titles, paragraphs, pictures, preview_image, sources} = req.body.article
+      const {user_id, roles} = req.user
+      const {title, description, tag, titles, paragraphs, pictures, preview_image, sources} = req.body
       const date_of_creation = req.requestTime
 
       const status = await articleService.addArticle(user_id, roles, title, description, tag, titles, paragraphs, pictures, preview_image, sources, date_of_creation)
@@ -75,8 +75,8 @@ class ArticleContoller {
   }
   async updateArticle(req, res, next) {
     try {
-      const {id: user_id, roles} = req.user
-      const {article_id, title, description, tag, titles, paragraphs, pictures, preview_image, sources} = req.body.article
+      const {user_id, roles} = req.user
+      const {article_id, title, description, tag, titles, paragraphs, pictures, preview_image, sources} = req.body
 
       const status = await articleService.updateArticle(user_id, roles, article_id, title, description, tag, titles, paragraphs, pictures, preview_image, sources)
 
@@ -93,7 +93,7 @@ class ArticleContoller {
   }
   async deleteArticle(req, res, next) {
     try {
-      const {id: user_id, roles} = req.user
+      const {user_id, roles} = req.user
       const {article_id} = req.body
       const status = await articleService.deleteArticle(user_id, roles, article_id)
       if(status === 200) {

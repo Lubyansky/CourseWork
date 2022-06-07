@@ -1,11 +1,6 @@
 <template>
   <header class = "header" id="header">
     <nav class = "header-container">
-        <div class = "burger-menu" id = "buttonBurger">
-            <div class = "burger-menu__line"></div>
-            <div class = "burger-menu__line"></div>
-            <div class = "burger-menu__line"></div>
-        </div>
         <img class = "header__logo" src = "../assets/images/logo.svg" alt="Лого">
         <nav class = "nav">
             <a class = "nav__link" href = "/">Главная</a>
@@ -31,7 +26,7 @@
   <div class = "login" id = "Authorization" v-click-outside="MenuClickOutside">
     <button class = "login__open" 
         :class="{loginOpen: isLogin}" 
-        @click="Open" 
+        @click="OpenMenu" 
         id = "openLogin" 
         type = "submit" 
         :title = "name ? name : 'Войти'">
@@ -42,16 +37,16 @@
             <div class = "login__username" :title = "fullName ? fullName: ''">
                 {{fullNameShorthand}}
             </div>
-            <a class = "login__link" :href="'/profile/' + user_id">Профиль</a>
-            <a class = "login__link" :href = "'/profile/'+ user_id + '#saved_articles'">Сохранённые статьи</a>
-            <a class = "login__link" href = "/article_management" v-if = "permission.canAddArticles && !isBanned">Управление материалами</a>
+            <a class = "login__link" :href="'/profile/' + user.user_id">Профиль</a>
+            <a class = "login__link" :href = "'/profile/'+ user.user_id + '#saved_articles'">Сохранённые статьи</a>
+            <a class = "login__link" href = "/article_management" v-if = "(permission.canAddArticles || permission.canEditArticles) && !isBanned">Управление материалами</a>
             <button class = "login__logout" @click.prevent="Logout" id = "buttonLogout" type = "submit">Выйти</button>
         </div>
         <div class = "login__form" v-else>
             <div class = "login__form-title">{{title}}</div>
-            <div class = "login__form-username">Имя пользователя</div>
+            <div class = "login__form-username">Имя пользователя  {{isTurn ? '(от 4 до 10 символов)' : ''}}</div>
             <input class = "username__input" id = "usernameInput" type="text" v-model="form.username">
-            <div class = "login__form-password" >Пароль</div>
+            <div class = "login__form-password" >Пароль {{isTurn ? '(от 4 до 10 символов)' : ''}}</div>
             <input class = "password__input" id = "passwordInput" type="password" v-model="form.password">
             <div class = "login__form-password" v-if = "isTurn" >Повторите пароль</div>
             <input class = "password__input" v-if = "isTurn" id = "repasswordInput" type="password" v-model="form.repassword">
@@ -61,6 +56,60 @@
             <a class = "login__form-regist" @click="TurnForm">{{turnText}}</a>
         </div>
     </div>
+  </div>
+  <div v-click-outside="MobileMenuClickOutside">
+        <div class = "burger-menu" @click="MobileMenuIsOpen ? MobileMenuIsOpen = false : MobileMenuIsOpen = true">
+            <div class = "burger-menu__line"></div>
+            <div class = "burger-menu__line"></div>
+            <div class = "burger-menu__line"></div>
+        </div>
+        <div v-show="MobileMenuIsOpen" class = "mobile-menu">
+            <div v-if = "MobileLoginIsOpen" class="login__form-mobile">
+                <button class = "login__form-close" @click="MobileLoginIsOpen = false"></button>
+                <div v-if="!isTurn" class="login__form-login">
+                    <div class = "login__form-title">{{title}}</div>
+                    <div class = "login__form-username">Имя пользователя</div>
+                    <input class = "username__input" id = "usernameInput" type="text" v-model="form.username">
+                    <div class = "login__form-password" >Пароль</div>
+                    <input class = "password__input" id = "passwordInput" type="password" v-model="form.password">
+                    <div class = login__error v-if = "error != ''">{{error}}</div>
+                    <button class = "login__button" id = "buttonLogin" type = "submit" @click.prevent="Login">Войти</button>
+                    <a class = "login__form-regist" @click="TurnForm">{{turnText}}</a>
+                </div>
+                <div v-else class="login__form-register">
+                    <div class = "login__form-title">{{title}}</div>
+                    <div class = "login__form-username">Имя пользователя (от 4 до 10 символов)</div>
+                    <input class = "username__input" id = "usernameInput" type="text" v-model="form.username">
+                    <div class = "login__form-password" >Пароль (от 4 до 10 символов)</div>
+                    <input class = "password__input" id = "passwordInput" type="password" v-model="form.password">
+                    <div class = "login__form-password" v-if = "isTurn" >Повторите пароль</div>
+                    <input class = "password__input" v-if = "isTurn" id = "repasswordInput" type="password" v-model="form.repassword">
+                    <button class = "login__button" :style="{width: curWidth}" type = "submit"  @click.prevent="Registration">Зарегистрироваться</button>
+                    <div class = login__error v-if = "error != ''">{{error}}</div>
+                    <a class = "login__form-regist" @click="TurnForm">{{turnText}}</a>
+                </div>
+            </div>
+            <div v-else>
+                <a class = "mobile-menu__link" href = "/">Главная</a>
+                <a class = "mobile-menu__link" href = "/periods">Материалы</a>
+                <a v-show="isLogin" class = "mobile-menu__link" :href="'/profile/' + user.user_id">Профиль</a>
+                <a v-show="isLogin" class = "mobile-menu__link" :href = "'/profile/'+ user.user_id + '#saved_articles'">Сохранённые статьи</a>
+                <a v-show="isLogin" class = "mobile-menu__link" href = "/article_management" v-if = "(permission.canAddArticles || permission.canEditArticles) && !isBanned">Управление материалами</a>
+                <button class = "mobile-menu__link" 
+                    v-if="!isLogin"
+                    @click="MobileLoginIsOpen ? MobileLoginIsOpen = false : MobileLoginIsOpen = true"  
+                    type = "submit" 
+                    :title = "name ? name : 'Войти'">
+                        Войти
+                </button>
+                <button v-else 
+                    class = "mobile-menu__link"
+                    @click.prevent="Logout" 
+                    type = "submit">
+                    Выйти
+                </button>
+            </div>
+        </div>
   </div>
 </template>
 
@@ -80,6 +129,8 @@ export default {
       MenuIsOpen: false,
       SearchIsOpen: false,
       PeriodsMenuIsOpen: false,
+      MobileMenuIsOpen: false,
+      MobileLoginIsOpen: false,
       error: '',
       form: {
         username: '',
@@ -103,7 +154,6 @@ export default {
         isLogin: state => state.user.isLogin,
         user: state => state.user.body,
         permission: state => state.permission,
-        user_id: state => state.user.body.user_id,
         isBanned: state => state.user.body.is_banned,
         tags: state => state.tags,
         URL: state => state.URL
@@ -157,6 +207,10 @@ export default {
       if(this.MenuIsOpen)
         this.MenuIsOpen = false
     },
+    MobileMenuClickOutside() {
+      if(this.MobileMenuIsOpen)
+        this.MobileMenuIsOpen = false
+    },
     SearchIsOpenClickOutside() {
       if(this.SearchIsOpen)
         this.SearchIsOpen = false
@@ -178,14 +232,33 @@ export default {
         }
     },
     async Registration(){
+      if(this.MobileLoginIsOpen){
+          this.MobileLoginIsOpen = false
+      }
       this.error = ''
       const {...input} = this.form
       if(!input.username){
         this.error = "Введите имя пользователя"
         return;
       }
+      if(input.username.search('^[a-zA-Z0-9]+$')){
+        this.error = "Для имени допускаются только буквы латинского алфавита и цифры"
+        return;
+      }
+      if(input.username.length < 4 || input.username.length > 10 ){
+        this.error = "Имя пользователя должно быть от 4 до 10 символов"
+        return;
+      }
       if(!input.password){
         this.error = "Введите пароль"
+        return;
+      }
+      if(input.password.search('^[a-zA-Z0-9]+$')){
+        this.error = "Для пароля допускаются только буквы латинского алфавита и цифры"
+        return;
+      }
+      if(input.password.length < 4 || input.password.length > 10 ){
+        this.error = "Пароль должен быть от 4 до 10 символов"
         return;
       }
       if(!input.repassword){
@@ -206,8 +279,12 @@ export default {
         password: '',
         repassword: ''
       }
+       this.isTurn = false
     },
     async Login(){
+      if(this.MobileLoginIsOpen){
+          this.MobileLoginIsOpen = false
+      }
       this.error = ''
       const {...input} = this.form
       if(!input.username){
@@ -234,7 +311,7 @@ export default {
           this.$router.push('/')
       }
     },
-    async Open(){
+    async OpenMenu(){
       if(this.MenuIsOpen){
         this.MenuIsOpen = false
         this.error = ''
@@ -292,11 +369,6 @@ export default {
         async query(){
             if(this.query){
                 var result = []
-                /*this.temp_articles.forEach(article =>{
-                    if(article.info.title.toLowerCase().trim().includes(this.search.toLowerCase().trim())){
-                        sort_articles.push(article)
-                    }
-                })*/
                 if(this.query.toLowerCase().trim().substring(0,1) == "@" && this.query.toLowerCase().trim().substring(1,this.query.length)){
                     const url = (this.URL.USER + "/get_user_by_name/" + this.query.toLowerCase().trim().substring(1,this.query.length))
                     await axios.get(url).then(res => {
@@ -369,7 +441,10 @@ export default {
         flex-wrap: wrap;
         position: absolute;
 
-        margin-top: 13.5px;
+        top: 13.5px;
+        left: 50px;
+
+        z-index: 11111;
 
         width: 20px;
         height: 36px;
@@ -652,10 +727,10 @@ export default {
 
     .search__button-cotrol {
         position: absolute;
-        top:25px;
+        top:20px;
 
-        width: 35px;
-        height:35px;
+        width: 45px;
+        height:45px;
 
         cursor: pointer;
     }
@@ -826,6 +901,92 @@ export default {
         color: #DCA600;
     }
 
+    .mobile-menu{
+        display: none;
+        flex-flow: column;
+        align-items: center;
+        position: absolute;
+        left: 0px;
+        top: 80px;
+        width: 100vw;
+
+        z-index: 10000;
+    }
+
+    .mobile-menu::before{
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        left: 0px;
+        top: -1px;
+        background-color: #000000;
+    }
+
+    .mobile-menu__link{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: relative;
+        width: 100vw;
+        height: 60px;
+        background-color: #DCA600;
+
+        font-size: 24px;
+        line-height: 26px;
+
+        text-decoration: none;
+        color: #000000;
+    }
+
+    .mobile-menu__link::after{
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        left: 0px;
+        bottom: 0px;
+        background-color: #000000;
+    }
+
+    .mobile-menu__link:hover{
+        background-color: #8D0909;
+        color: #FFFFFF;
+    }
+    .login__form-login{
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+    }
+    .login__form-register{
+        height: 100%;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+    }
+    .login__form-close{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 15px;
+        height: 15px;
+        background: url("@/assets/images/UI/buttons/delete-button.svg");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background: assets\images\UI\buttons;
+    }
+
+    .login__form-mobile{
+        position: relative;
+        width: 100%;
+        background-color: #DCA600;
+        z-index: 100;
+        color: #FFF6F6;
+    }
+
     @media (max-width: 1476px) {
         .history-menu{
             padding-left: 105px;
@@ -914,7 +1075,7 @@ export default {
             z-index: 50;
         }
         .search__button-cotrol{
-            top: 25px;
+            top: 20px;
         }
 
         .search__results{
@@ -923,9 +1084,24 @@ export default {
             top: 140px;
             width: 100vw;
         }
+        .login{
+            display: none;
+        }
+        .mobile-menu{
+            display: flex;
+        }
+        .login__container{
+            width: 100vw;
+        }
+        .login__form{
+            max-height: 330px;
+        }
     }
 
     @media (max-width: 768px) {
+        .burger-menu {
+            left: 15px;
+        }
         .header-container {
             padding-left: 15px;
             padding-right: 15px;
@@ -945,6 +1121,13 @@ export default {
         .search__input {
             padding-left:15px;
             padding-right:65px;
+        }
+         .search__result{
+            padding-top: 8px;
+            padding-bottom: 8px;
+            width: 100%;
+            height: 100%;
+            min-height: 60px;
         }
     }
 

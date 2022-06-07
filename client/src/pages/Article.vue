@@ -60,7 +60,7 @@
 
 <script>
 import axios from "axios"
-import {mapActions, mapGetters, mapState} from 'vuex'
+import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
 import CommentList from "@/components/CommentList.vue"
 import articleMixin from "@/mixins/articleMixin"
 
@@ -80,7 +80,6 @@ export default {
     computed: {
       ...mapState({
         tags: state => state.tags,
-        article_edit: state => state.article_edit,
         URL: state => state.URL,
         saved_articles: state => state.user.body.saved_articles,
         isLogin: state => state.user.isLogin,
@@ -96,6 +95,9 @@ export default {
       }
     },
     methods: {
+      ...mapMutations({
+        setArticleEdit: 'setArticleEdit'
+      }),
       ...mapActions({
         DeleteArticle: 'user/DeleteArticle',
         SaveArticle: 'user/SaveArticle',
@@ -111,12 +113,14 @@ export default {
         }
       },
       async Edit(){
-        this.article_edit.article = {
-          info: this.article.info,
-          content: this.article.content,  
-          sources: this.article.sources
-        }
-        this.article_edit.isEdit = true
+        this.setArticleEdit({
+          article: {
+            info: this.article.info,
+            content: this.article.content,  
+            sources: this.article.sources
+          },
+          isEdit: true
+        })
         this.$router.push({name: 'article_editing'})
       }
     },

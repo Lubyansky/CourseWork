@@ -110,7 +110,11 @@ export default {
     .article__comment{
         padding-top: 20px;
         position: relative;
+        max-width: calc(100vw + -40px);
+        width: 100%;
         height: 100%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .article__comment::after{

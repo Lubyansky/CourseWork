@@ -3,13 +3,13 @@
     <div class = "comment__title">Комментарии</div>
     <textarea class = "comment__input-add" 
         contenteditable ="true"
-        placeholder="Оставьте комментарий" 
+        :placeholder="isLogin ? 'Оставьте комментарий' : 'Войдите чтобы оставить комментарий'" 
         autocomplete="off" 
         v-model="formAdd.text"
-        :disabled = "!isBanned ? null : 'disabled'"
+        :disabled = "isBanned || !isLogin ? 'disabled' : null"
     >
     </textarea>
-    <kiku-button type = "submit" :disabled = "!canAdd">Добавить</kiku-button>
+    <kiku-button v-if = "isLogin" type = "submit" :disabled = "!canAdd">Добавить</kiku-button>
   </form>
 </template>
 
@@ -83,6 +83,7 @@ export default {
 
     .comment__input-add{
         resize: none;
+        max-width: calc(100vw + -40px);
         width: 100%;
         height: 200px;
         margin-top: 48px;

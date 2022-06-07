@@ -19,7 +19,7 @@ export default {
     .add-item-button{
       position: relative;
       padding-left: 8px;
-      padding-right: 8px;
+      padding-right: 48px;
       width: 100%;
       height: 32px;
       text-align: left;

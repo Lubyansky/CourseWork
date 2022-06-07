@@ -3,7 +3,7 @@
     <img class = "footer__logo" src = "../assets/images/logo.svg" alt="Лого">
     <div class = "footer-container">
         <nav class = "footer-page__socials">
-            НАШИ СОЦСЕТИ
+            <h4>НАШИ СОЦСЕТИ</h4>
             <a class="footer-page__social link_white" href="https://www.vk.com/" rel="noopener" target="_blank">
                 <img class="footer-page__social-icon" src = "../assets/images/UI/social/icon-vk.svg" alt="Иконка вконтакте">
                 <span class="footer-page__social-title">
@@ -31,8 +31,8 @@
             <div class = "footer-page__subscribe-description">
                 Оставьте ваш e-mail, чтобы получать наши новости
             </div>
-            <form class = "footer-page__subscribe__field" id = "Footer" @submit.prevent="makeSubscribe" v-cloak>
-                <input id = "emailInput" class = "footer-page__subscribe__input" type="email" placeholder="Ваш e-mail" autocomplete="off" v-model="form.email">
+            <form class = "footer-page__subscribe__field" @submit.prevent="makeSubscribe" v-cloak>
+                <input id = "emailInput" class = "footer-page__subscribe__input" type="email" placeholder="Ваш e-mail" autocomplete="off" v-model="email">
                 <button id = "buttonSubscribe" class = "footer-page__subscribe__button button-reset" type = "submit" :disabled = "!canAdd"></button>
                 <div class = "footer-page__subscribe__line"></div>
             </form>
@@ -60,9 +60,7 @@ import { mapState } from 'vuex'
 export default {
     data(){
         return{
-            form: {
-                email: ''
-            }
+            email: ''
         }
     },
     computed: {
@@ -70,21 +68,18 @@ export default {
             URL: state => state.URL
         }),
         canAdd() {
-            return this.form.email.trim()
+            return this.email.trim()
         }
     },
     methods: {
         async makeSubscribe(){
-            const {email} = this.form
+            const email = this.email
+            this.email = ""
             console.log(email)
             const url = (this.URL.API + '/email')
-            try{
-                await axios.post(url, {email}, { withCredentials: true })
-                this.form.email =  ''
-            }
-            catch(e){
 
-            }
+            await axios.post(url, {email}, { withCredentials: true })
+            .catch()
         }
     }
 }
@@ -142,12 +137,17 @@ export default {
 
         display: flex;
         flex-flow: wrap;
-        justify-content: center;
         align-content:space-between;
 
         text-transform:uppercase;
 
         color: #FFFFFF;
+    }
+
+    .footer-page__socials h4{
+        margin: 0;
+        font-style: normal; 
+        font-weight: normal;
     }
 
     .footer-page__social {
@@ -322,7 +322,7 @@ export default {
     @media(max-width: 992px){
         .footer{
             width: 100%;
-            height: 580px;
+            height: 100%;
         }
         .footer__logo{
             padding-top: 30px;
@@ -334,6 +334,7 @@ export default {
         }
         .footer-container{
             padding-top: 38px;
+            padding-bottom: 76px;
 
             display: flex;
             align-items: center;
@@ -348,17 +349,25 @@ export default {
 
             width: 100%;
 
-            display: flex;
+            display: inline-flex;
             justify-content: center;
             flex-flow: wrap;
+            text-align: center;
+
+            content: "";
+        }
+
+        .footer-page__socials h4{
+            display: none;
         }
 
         .footer-page__social {
-            padding: 15px ;
+            padding: 20px ;
+            justify-content: center;
         }
-        .footer-page__social-title {
+        /*.footer-page__social-title {
             display: none;
-        }
+        }*/
 
         .footer-page__subscribe{
             padding-top: 38px;
@@ -419,9 +428,6 @@ export default {
     }
 
     @media (max-width: 576px) {
-        .footer{
-            height: 580px;
-        }
         .footer-page__socials {
             padding-left: 80px;
             padding-right: 80px;
@@ -432,18 +438,6 @@ export default {
         }
         .footer-page__copyright{
             width: 60%;
-        }
-    }
-
-    @media (max-width:468px) {
-        .footer{
-            height: 660px;
-        }
-    }
-
-    @media (max-width: 360px) {
-        .footer{
-            height: 700px;
         }
     }
 </style>

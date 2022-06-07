@@ -48,7 +48,7 @@ class UserContoller {
 
   async getUser(req, res, next) {
     try {
-      const {id: user_id} = req.user
+      const {user_id} = req.user
       const user = await userService.user(user_id)
       res.json(user)
     } 
@@ -79,7 +79,7 @@ class UserContoller {
   }
   async updateUser(req, res, next) {
     try {
-      const {id: user_id, roles} = req.user
+      const {user_id, roles} = req.user
       const {id, username, name, surname, email, roles: newRoles} = req.body.user
       const newToken = await userService.updateUser(user_id, roles, id, username, name, surname, email, newRoles)
       if(id === user_id && newToken) {
@@ -93,7 +93,7 @@ class UserContoller {
   }
   async editPassword(req, res, next){
     try{
-      const {id: user_id} = req.user
+      const {user_id} = req.user
       const {oldPass, newPass} = req.body.input
       const data = await userService.editPassword(user_id, oldPass, newPass)
       res.cookie('token', data.token, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, path: '/'})
@@ -105,7 +105,7 @@ class UserContoller {
   }
   async deleteUser(req, res, next){
     try{
-      const {id: user_id, roles} = req.user
+      const {user_id, roles} = req.user
       const {id} = req.body
       if(id === user_id) {
         res.clearCookie('token');
@@ -144,7 +144,7 @@ class UserContoller {
   async addСomment(req, res, next) {
     try {
       const date_of_writing = req.requestTime
-      const {id: user_id} = req.user
+      const {user_id} = req.user
       if(!user_id && user_id != 0){
         return next(ApiError.ForbiddenRequest("У вас нет доступа"))
       }
@@ -158,7 +158,7 @@ class UserContoller {
   }
   async updateComment(req, res, next) {
     try {
-      const {id: user_id, roles: role} = req.user
+      const {user_id, roles: role} = req.user
       const {comment_id, text} = req.body.comment
       await commentService.updateComment(user_id, role, comment_id, text)
       res.status(200).json("Комментарий был успешно изменён")
@@ -169,7 +169,7 @@ class UserContoller {
   }
   async deleteСomment(req, res, next) {
     try {
-      const {id: user_id, roles: role} = req.user
+      const {user_id, roles: role} = req.user
       const {comment_id} = req.body
       await commentService.deleteСomment(user_id, role, comment_id)
       res.status(200).json("Комментарий был успешно удалён")
@@ -180,7 +180,7 @@ class UserContoller {
   }
   async saveArticle(req, res, next){
     try{
-      const {id: user_id} = req.user
+      const {user_id} = req.user
       const {article_id} = req.body
       await userService.saveArticle(user_id, article_id)
       res.status(200).json("Статья была успешно сохранена")
@@ -191,7 +191,7 @@ class UserContoller {
   }
   async deleteArticle(req, res, next){
     try{
-      const {id: user_id} = req.user
+      const {user_id} = req.user
       const {article_id} = req.body
       await userService.deleteArticle(user_id, article_id)
       res.status(200).json("Статья была успешно сохранена")
@@ -213,7 +213,7 @@ class UserContoller {
   }
   async getArticlesToChange(req, res, next){
     try {
-      const {id: user_id, roles: role} = req.user
+      const {user_id, roles: role} = req.user
       const articles = await userService.getArticlesToChange(user_id, role)
       res.status(200).json(articles)
     }

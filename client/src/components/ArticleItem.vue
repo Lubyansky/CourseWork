@@ -20,15 +20,15 @@
         <kiku-comments class="article__info-comments">Комментарии: {{article.comments.length}}</kiku-comments>
       </div>
     </a>
-    <div class = "article__control" v-if = "isLogin && !isBanned">
-      <save-button :isActive = "article.isSave" @click="Save(article)" title="Сохранить"></save-button>
-      <edit-article-button v-if = "permission.canEditArticles || article.author.author_id == user_id" title="Редактировать" @click="Edit"></edit-article-button>
+    <div class = "article__control">
+      <save-button v-if = "isLogin && !isBanned" :isActive = "article.isSave" @click="Save(article)" title="Сохранить"></save-button>
+      <edit-article-button v-if = "isLogin && !isBanned && (permission.canEditArticles || article.author.author_id == user_id)" title="Редактировать" @click="Edit"></edit-article-button>
       <button class = "control__button-cover" :class="{button__uncover: article.isHidden}" @click="Cover(article)" title="Свернуть/развернуть"></button>
     </div>
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from 'vuex'
+import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
 
 export default {
     props: {
@@ -44,7 +44,6 @@ export default {
     computed: {
       ...mapState({
         tags: state => state.tags,
-        article_edit: state => state.article_edit,
         isLogin: state => state.user.isLogin,
         permission: state => state.permission,
         user_id: state => state.user.body.user_id,
@@ -55,6 +54,9 @@ export default {
       })
     },
     methods:{
+        ...mapMutations({
+            setArticleEdit: 'setArticleEdit'
+        }),
         ...mapActions({
             DeleteArticle: 'user/DeleteArticle',
             SaveArticle: 'user/SaveArticle'
@@ -70,12 +72,14 @@ export default {
             }
         },
         async Edit(){
-            this.article_edit.article  = {
-                info: this.article.info,
-                content: this.article.content,  
-                sources: this.article.sources
-            }
-            this.article_edit.isEdit = true
+            this.setArticleEdit({
+                article: {
+                    info: this.article.info,
+                    content: this.article.content,  
+                    sources: this.article.sources
+                },
+                isEdit: true
+            })
             this.$router.push({name: 'article_editing'})
         },
         async Cover(article){
@@ -103,6 +107,7 @@ export default {
     .article__container__content_hidden{
         display: flex;
         flex-flow: column;
+        align-items: center;
     }
 
     .article__container__content:hover{
@@ -139,7 +144,7 @@ export default {
     }
 
     .articles__article-content_hidden{
-        max-width: 936px;
+        max-width: calc(100% + -75px + -50px + -40px); /*вычитаем длину просмотров и длину блока управление, последние значение отступы*/
     }
 
     .articles__article-title{
@@ -232,5 +237,82 @@ export default {
 
     .button__uncover{
         background-image: url("@/assets/images/UI/buttons/to_uncover.svg");
+    }
+
+    @media(max-width: 1024px){
+        .article__container__content{
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+        } 
+        .articles__article-content{
+            padding-left:0px;
+            max-width: 100%;
+        }
+         .articles__article-title{
+            padding-top: 24px;
+            text-align: center;
+        }
+        .articles__article-desc{
+            padding-top: 24px;
+            text-align: center;
+        }
+        .articles__article-info{
+            padding-top: 24px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            padding-left:0px;
+            max-width: 100%;
+        }
+
+        .article__info-tag{
+            padding-bottom: 12px;
+            width: 100%;
+            text-align: center;
+        }
+        .article__info-views{
+            margin-top:0px;
+            width: 50%;
+        }
+        .article__info-comments{
+            margin-top:0px;
+            width: 50%;
+        }
+    }
+
+    @media(max-width: 786px){
+        .article__container__content{
+            padding-top: 35px;
+        }
+    }
+
+    @media(max-width: 576px){
+        .articles__article-content_hidden{
+            margin-top: 50px;
+            max-width: calc(100%);
+        }
+
+        .articles__article-title{
+            font-size: 24px;
+            line-height: 26px;
+
+            color: #8D0909;
+        }
+        .articles__article-title_hidden{
+            font-size: 24px;
+            line-height: 26px;
+            text-align: center;
+            color: #8D0909;
+        }
+        .article__info-views{
+            padding-bottom: 12px;
+            width: 100%;
+            justify-content: center;
+        }
+        .article__info-comments{
+            width: 100%;
+            justify-content: center;
+        }
     }
 </style>

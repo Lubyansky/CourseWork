@@ -2,7 +2,7 @@
   <div class = "container__loader" v-if = "loading" style = "padding-top: 180px; padding-bottom:240px">
     <div class = "loader"></div>
   </div>
-  <div class = "management" v-else-if = "(permission.canEditArticles || permission.canEditArticles) && !isBanned" v-cloak>
+  <div class = "management" v-else-if = "(permission.canEditArticles || permission.canAddArticles) && !isBanned" v-cloak>
     <div class = "container__loader" v-if = "loading" style = "padding-top: 180px; padding-bottom:240px">
       <div class = "loader"></div>
     </div>
@@ -34,7 +34,8 @@ export default {
         ...mapState({
             isBanned: state => state.user.body.is_banned,
             user_id: state => state.user.body.user_id,
-            permission: state => state.permission
+            permission: state => state.permission,
+            isLogin: state => state.user.isLogin
         })
     },
     methods:{
@@ -46,13 +47,14 @@ export default {
         }
     },
     created(){
-        if(!(this.permission.canEditArticles || this.permission.canEditArticles) || this.isBanned){
+        if(!(this.permission.canEditArticles || this.permission.canAddArticles) || this.isBanned){
             this.$router.push('/')
         }
     },
     async mounted(){
         this.loading = true
-        this.GetArticlesToChange().then(value => {
+        if(this.isLogin){
+            this.GetArticlesToChange().then(value => {
             const dataArticles = value
             const articles = []
 
@@ -69,7 +71,8 @@ export default {
             })
 
             this.articles = this.temp_articles = articles
-        }).finally(this.loading = false)
+            }).finally(this.loading = false)
+        }
     }
 }
 </script>
@@ -99,11 +102,12 @@ export default {
         margin-left: auto;
         margin-right: auto;
         margin-top: 66px;
+        margin-bottom: 65px;
         font-size: 32px;
+        text-align: center;
     }
 
     .management__add-article{
-        margin-top: 65px;
         margin-bottom: 65px;
     }
 </style>

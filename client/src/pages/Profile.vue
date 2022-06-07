@@ -48,13 +48,6 @@
                     </span>
                 </div>
             </template>
-            <!--option disabled hidden value="">Выберите роль</option>
-            <option v-for="role in roles" 
-                :key="role.id" 
-                :value="role.id"
-            >
-                {{role.display}}
-            </option-->
           </Multiselect>
         </div>
         <div class = "profile__item type3">
@@ -83,7 +76,7 @@
         </div>
         <div class = "profile__item type3">
           <div class = "profile__item-title">Email</div>
-          <div v-if="!isEdit" class = "profile__item-value">{{user.email == null ? "—" : user.email}}</div>
+          <div v-if="!isEdit" class = "profile__item-value">{{user.email == null || user.email == "" ? "—" : user.email}}</div>
           <kiku-input v-else class = "profile__item-input" 
             placeholder="Введите email" 
             type="email" 
@@ -97,10 +90,11 @@
           <kiku-button v-show = "user_id == user.user_id && !user.is_banned || permission.canEditUsers" @click="Edit">Редактировать</kiku-button>
           <kiku-button v-show = "user_id == user.user_id && !user.is_banned" @click = "EditPassControl">Изменить пароль</kiku-button>
           <kiku-button v-show = "user_id == user.user_id || permission.canDeleteUsers" :isDelete="true" @click = "Delete">Удалить</kiku-button>
-          <kiku-button v-show = "permission.canBan && !(user_id == user.user_id)" :isDelete="true" @click = "Ban">{{user.is_banned ? 'Разбанить' : 'Забанить'}}</kiku-button>
+          <kiku-button v-show = "permission.canBan && !(user_id == user.user_id) && !userRolesWithoutUser.includes('Администратор')" :isDelete="true" @click = "Ban">{{user.is_banned ? 'Разблокировать' : 'Заблокировать'}}</kiku-button>
         </div>
         <kiku-button v-else-if = "isRepass && user_id == user.user_id" @click = "EditPassControl">Закрыть</kiku-button>
         <kiku-button class = "profile__control-save" v-else @click="Edit">Сохранить</kiku-button>
+        <div v-show="formEditUser.error" class = "profile__edit-user-error">{{formEditUser.error}}</div>
       </div>
       <form v-if = "isRepass" class = "profile__edit-password" @submit.prevent="EditPass">
           <div class = "profile__edit-password-title">Введите старый пароль</div>
@@ -112,7 +106,7 @@
           <kiku-button class = "profile__edit-password-button">Сохранить</kiku-button>
           <div class = "profile__edit-password-error">{{formEditPass.error}}</div>
       </form>
-      <div v-if = "formEditPass.success" class = "profile__edit-password-success">{{formEditPass.success}}</div>
+      <div v-if = "formEditPass.success && isLogin" class = "profile__edit-password-success">{{formEditPass.success}}</div>
       <div class = "profile__saved-article" v-if = "user.user_id == user_id" id = "saved_articles">
         <h2 class = "profile__saved-article-title">Сохраненные статьи</h2>
         <div class = "profile__saved-article-list" v-if = "convert_articles.length">
@@ -210,6 +204,7 @@ export default {
           saved_articles: state => state.saved_articles,
           permission: state => state.permission,
           user_id: state => state.user.body.user_id,
+          isLogin: state => state.user.isLogin,
           isHidden: state => state.isHidden,
           roles: state => state.roles
       }),
@@ -222,7 +217,7 @@ export default {
         ...mapActions({
             DeleteUser: 'user/Delete',
             EditUser: 'user/EditUser',
-            EditPass: 'user/EditPass',
+            EditPassword: 'user/EditPass',
             GetUser: 'user/GetUser',
             BanControl: 'user/BanControl'
         }),
@@ -233,6 +228,22 @@ export default {
             this.isRepass = false
             this.isDelete = false
             if(this.isEdit){
+                if(this.formEditUser.username == null || this.formEditUser.username.length < 4 || this.formEditUser.username.length > 10 ){
+                    this.formEditUser.error = "Имя пользователя должно быть больше от 4 до 10 символов"
+                    return;
+                }
+                if(this.formEditUser.username.search('^[a-zA-Z0-9]+$')){
+                    this.formEditUser.error = "Для имени пользователя допускаются только буквы латинского алфавита и цифры"
+                    return;
+                }
+                if(this.formEditUser.name != null && this.formEditUser.name.length > 15 ){
+                    this.formEditUser.error = "Имя должно быть до 15 символов"
+                    return;
+                }
+                if(this.formEditUser.surname != null && this.formEditUser.surname.length > 15 ){
+                    this.formEditUser.error = "Фамилия должна быть до 15 символов"
+                    return;
+                }
                 this.isEdit = false
                 var user = {
                     id: this.user.user_id,
@@ -252,19 +263,25 @@ export default {
                     roles: [],
                     error: ''
                 }
-                this.EditUser(user)
-                var convertRoles = []
-                user.roles.forEach(id =>{
-                    convertRoles.push(this.roles.find(role => role.id === id))
+                var err = this.EditUser(user)
+                err.then(value => {
+                    this.formEditUser.error = value
+                    if(value){
+                        return
+                    }
+                    var convertRoles = []
+                    user.roles.forEach(id =>{
+                        convertRoles.push(this.roles.find(role => role.id === id))
+                    })
+                    this.user.username = user.username,
+                    this.user.name = user.name,
+                    this.user.surname = user.surname,
+                    this.user.email = user.email,
+                    this.user.roles = convertRoles
+                    if(this.user_id === this.user.user_id){
+                        this.SetUser(this.user)
+                    }
                 })
-                this.user.username = user.username,
-                this.user.name = user.name,
-                this.user.surname = user.surname,
-                this.user.email = user.email,
-                this.user.roles = convertRoles
-                if(this.user_id === this.user.user_id){
-                    this.SetUser(this.user)
-                }
             }
             else{
                 this.isEdit = true
@@ -339,12 +356,16 @@ export default {
                 this.formEditPass.error = "Введите новый пароль"
                 return;
             }
+            if(input.newPass.search('^[a-zA-Z0-9]+$')){
+                this.formEditPass.error = "Для пароля допускаются только буквы латинского алфавита и цифры"
+                return;
+            }
             if(input.oldPass === input.newPass){
                 this.formEditPass.error = "Старый и новый пароли должны отличаться"
                 return;
             }
             if(input.newPass.length < 4 || input.newPass.length > 10 ){
-                this.formEditPass.error = "Пароль должен быть больше 3 и меньше 11 символов"
+                this.formEditPass.error = "Пароль должен быть от 4 до 10 символов"
                 return;
             }
             if(!input.reNewPass){
@@ -355,14 +376,14 @@ export default {
                 this.formEditPass.error = "Новые пароли не совпадают"
                 return;
             }
-            const err = this.EditPass(input)
+            const err = this.EditPassword(input)
             err.then(value => {
                 this.formEditPass.error = value
+                if(!value){
+                    this.EditPassControl()
+                    this.formEditPass.success = "Пароль успешно изменен"
+                }
             })
-            if(!this.formEditPass.error){
-                this.EditPassControl()
-                this.formEditPass.success = "Пароль успешно изменен"
-            }
         },
         async Ban(){
             if(this.user.is_banned){
@@ -398,18 +419,6 @@ export default {
 
         this.GetUser(this.$route.params.id).then(res =>{
             this.user = res
-            /*if(this.user){
-                var result = ''
-                this.user.roles.forEach(role => {
-                    if(role.id != "user"){
-                        if(result){
-                            result += ", "
-                        }
-                        result += role.display
-                    }
-                })
-                this.user.roles = result
-            }*/
         })
         this.loading = false
     }
@@ -450,6 +459,8 @@ export default {
 
     .profile__content{
         margin-top: 100px;
+        padding-left: 15px;
+        padding-right: 15px;
         position: relative;
         display:grid;
         grid-template-columns: 33.33% 33.33% 33.33%;
@@ -511,11 +522,14 @@ export default {
         background-color: #A5A5A5;
     }
     .profile__control{
-        
+        width: 100%;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
     }
     .profile__control-main{
         margin-bottom: 80px;
-        display: "flex";
+        display: flex;
         height: 50px;
         justify-items: center;
     }
@@ -568,7 +582,10 @@ export default {
         border: 1px solid #DCA600;
     }
     .profile__edit-password{
-        width: 400px;
+        padding-left: 15px;
+        padding-right: 15px;
+        max-width: 400px;
+        width: 100%;
         height: 100%;
         display: flex;
         flex-flow: column;
@@ -596,7 +613,22 @@ export default {
         color:#8D0909;
         text-align: center;
     }
+    .profile__edit-user-error{
+        align-self: center;
+        margin-bottom: 80px;
+        font-size: 18px;
+        line-height: 20px;
+        color:#8D0909;
+        text-align: center;
+    }
     .profile__edit-password-success{
+        margin-top: 40px;
+        margin-bottom: 60px;
+        font-size: 18px;
+        line-height: 20px;
+        color: #1d6923;
+    }
+    .profile__edit-user-success{
         margin-top: 40px;
         margin-bottom: 60px;
         font-size: 18px;
@@ -607,6 +639,8 @@ export default {
         width: 100%;
     }
     .profile__saved-article-title{
+        margin-left: 15px;
+        margin-right: 15px;
         margin-bottom: 66px;
         font-size: 32px;
         text-align: center;
@@ -653,4 +687,80 @@ export default {
         font-size: 32px;
         text-align: center;
     }
+
+    @media(max-width: 836px){
+        .profile__control-main{
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            /*
+            justify-items: center;*/
+        }
+        .button {
+            margin-top: 20px;
+        }
+
+        .profile__content{
+            margin-top: 36px;
+            /*padding-left: 15px;
+            padding-right: 15px;*/
+            display:flex;
+            flex-flow: column;
+
+        }
+        .profile__content::after{
+            display: none;
+        }
+        .type1{
+            text-align: center;
+        }
+        .type2{
+            text-align: center;
+        }
+        .type3{
+            text-align: center;
+        }
+        .profile__item-title{
+            margin-top: 36px;
+        }
+        .profile__item-value{
+            margin-top: 12px;
+            font-size: 24px;
+        }
+        .profile__control{
+            margin-top: 36px;
+        }
+    }
+
+    /*@media(max-width: 576px){
+        .profile__content{
+            margin-top: 36px;
+            display:flex;
+            flex-flow: column;
+
+        }
+        .profile__content::after{
+            display: none;
+        }
+        .type1{
+            text-align: center;
+        }
+        .type2{
+            text-align: center;
+        }
+        .type3{
+            text-align: center;
+        }
+        .profile__item-title{
+            margin-top: 36px;
+        }
+        .profile__item-value{
+            margin-top: 12px;
+            font-size: 24px;
+        }
+        .profile__control{
+            margin-top: 36px;
+        }
+    }*/
+
 </style>

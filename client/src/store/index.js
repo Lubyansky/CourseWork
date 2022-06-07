@@ -4,9 +4,15 @@ import {userModule} from "@/store/userModule";
 export default createStore({
     state: () =>  ({
         URL:{
-            BASE: `http://5.206.78.61:5500/`,
+            /*BASE: `http://localhost:5500/`,
+            API: `http://localhost:5500/api`,
+            USER: `http://localhost:5500/user`*/
+            /*BASE: `http://5.206.78.61:5500/`,
             API: `http://5.206.78.61:5500/api`,
-            USER: `http://5.206.78.61:5500/user`
+            USER: `http://5.206.78.61:5500/user`*/
+            BASE: `http://192.168.95.131:5500/`,
+            API: `http://192.168.95.131:5500/api`,
+            USER: `http://192.168.95.131:5500/user`
         },
         tags:[
             {id: 'tag1', title:'Доисторическая Япония'},
@@ -97,6 +103,9 @@ export default createStore({
     mutations:{
         setIsHidden(state, value){
             state.isHidden = value
+        },
+        setArticleEdit(state, value){
+            state.article_edit = value
         }
     },
     modules: {

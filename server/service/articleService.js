@@ -1,7 +1,9 @@
 const db = require('../db.js')
 const filesService = require('../service/filesService')
 const commentService = require('./commentService.js')
+const userService = require('./userService.js')
 const ApiError = require('../exceptions/apiError');
+const { user } = require('./userService.js');
 
 class articleService {
     async getArticles(){
@@ -124,7 +126,6 @@ class articleService {
         }
     } 
     async updateArticle(user_id, roles, article_id, title, description, tag, titles, paragraphs, pictures, preview_image, sources) {
-        const article =  await db.query(`SELECT fk_author_id FROM public."Articles" WHERE article_id = $1 ORDER BY article_id`, [article_id])
         if(!title){
             throw ApiError.BadRequest('У статьи должно быть название')
         }
@@ -143,7 +144,8 @@ class articleService {
         if(!preview_image){
             throw ApiError.BadRequest('В статье должно присуствовать превью')
         }
-        if(user_id === article.rows[0].fk_user_id || roles.includes("admin")) {
+        const article =  await db.query(`SELECT fk_author_id FROM public."Articles" WHERE article_id = $1 ORDER BY article_id`, [article_id])
+        if(user_id === article.rows[0].fk_author_id || roles.includes("admin") || roles.includes("moderator")) {
             await db.query(
             `UPDATE public."Articles" SET title = $2, description = $3, tag = $4, titles = $5, paragraphs = $6, pictures = $7, preview_image = $8, sources = $9
             WHERE article_id = $1
@@ -157,6 +159,11 @@ class articleService {
     async deleteArticle(user_id, roles, article_id) {
         const article = await db.query(`SELECT fk_author_id FROM public."Articles" WHERE article_id = $1 ORDER BY article_id`, [article_id])
         if(user_id === article.rows[0].fk_author_id || roles.includes("admin") || roles.includes("moderator")) {
+            const users = await db.query(`SELECT user_id FROM public."Users" WHERE $1 = any(fk_saved_articles_id)`, [article_id])
+            users.rows.forEach(user => {
+                userService.deleteArticle(user.user_id, article_id)
+            })
+            await db.query(`DELETE FROM public."Comments" WHERE fk_article_id = $1`, [article_id])
             await db.query(`DELETE FROM public."Articles" WHERE article_id = $1`, [article_id])
             await filesService.deleteDirPreview(article_id)
             await filesService.deleteDirArticle(article_id)

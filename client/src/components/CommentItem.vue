@@ -12,8 +12,8 @@
         <div class = "comment__date">{{comment.date_of_writing}}</div>
     </div>
     <div class = "comment__control" v-if = "!isBanned">
-        <delete-button v-if = "comment.fk_user_id == user_id|| permission.canEditComments" type = "submit" @click="DeleteComment(comment.comment_id, index)"></delete-button>
         <edit-comment-button v-if = "comment.fk_user_id == user_id || permission.canEditComments" type = "submit" @click="EditControl(index, comment.text)"></edit-comment-button>
+        <delete-button v-if = "comment.fk_user_id == user_id|| permission.canEditComments" type = "submit" @click="DeleteComment(comment.comment_id, index)"></delete-button>
     </div>
   </div>
   <form v-if = "currEdit == index" class = "comment__edit" @submit.prevent="EditComment(comment.comment_id, index)">
@@ -134,10 +134,13 @@ export default {
     }
     .comment_info{
         width: 100%;
+        padding-right: 10px;
         display: inline-flex;
+        flex-flow: wrap;
         color: #000000;
     }
     .comment__username{
+        margin-bottom: 5px;
         margin-right: 18px;
         text-decoration: none;
         color: #000000;
@@ -146,10 +149,12 @@ export default {
         color:#DCA600;
     }
     .comment__user-roles{
+        margin-bottom: 5px;
         margin-right: 18px;
         color: #A5A5A5;
     }
     .comment__date{
+        margin-bottom: 5px;
         color: #A5A5A5;
     }
     .comment__control{

@@ -1,7 +1,7 @@
 <template>
 	<div class = "articles">
     <div class = "articles__container" id="articles">
-      <h1 class = "articles__title">История Японии</h1>
+      <h1 class = "articles__title">Материалы</h1>
       <nav class = "articles__tags"> 
         <kiku-tag 
           v-for="(tag, index) in tags" 
@@ -11,7 +11,7 @@
         >
           {{tag.title}}
         </kiku-tag>
-        <h5 style="margin-top:10px;">Нажмите на тег чтобы добавить/убрать период (жёлтый тег — активный)</h5>
+        <h5 style="margin-top:10px; text-align: center;">Нажмите на тег чтобы добавить/убрать период (жёлтый тег — активный)</h5>
       </nav>
       <h2 class = "articles__found-articles">Найденые статьи</h2>
       <div v-cloak>
@@ -257,71 +257,12 @@ export default {
         .articles__found-articles_none{
             font-size: 18px;
         }
-        
-        .articles__article{
-            padding-bottom: 50px;
-            margin-left: auto;
-            margin-right: auto;
-
-            max-width: 495px;
-
-        }
-        
-        .article__container{
-            flex-flow: column;
-        }
-
-        .articles__article::after{
-            position: absolute;
-            content: "";
-            max-width: 495px;
-            width: 100%;
-            height: 1px;
-            top: calc(100% + -50px);
-            background-color: #000000;
-        }
-        .articles__article-info{
-            padding-left:0px;
-            max-width: 495px;
-        }
-        .articles__article-picture{
-            width: 495px;
-            height: 270px;
-        }
-        .articles__article-title{
-            height: 34px;
-
-            font-size: 20px;
-            line-height: 23px;
-        
-            display: flex;
-            justify-content: center;
-            align-items:flex-end;
-            color: #8D0909;
-        }
-        
-        .articles__article-desc{
-            padding-bottom: 20px;
-            text-align: center;
-            padding-top: 20px;
-            font-size: 16px;
-            line-height: 18px;
-
-            max-width: none;
-        }
     }
 
     @media (max-width: 576px){
       .articles__title {
         padding-top: 20px;
         padding-bottom: 20px;
-      }
-      .articles__article{
-          max-width: 330px;
-      }
-      .articles__article-picture{
-          width: 330px;
-          height: 180px;
       }
     }
 </style>

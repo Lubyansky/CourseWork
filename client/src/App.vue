@@ -97,6 +97,7 @@ export default {
     font-style: normal; 
     font-weight: normal;
   }
+
   .app__container {
     height: auto;
     left: 0px;

@@ -33,4 +33,9 @@ export default {
         padding-top: 3.5px;
         padding-left: 6px;
     }
+    @media(max-width: 576px){
+        .comments{
+            justify-content: center;
+        }
+    }
 </style>

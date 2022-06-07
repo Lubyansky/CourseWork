@@ -10,7 +10,7 @@ class UserService {
     async registration(username, password, _registration_date) {
         const candidate = await db.query(`SELECT * FROM public."Users" WHERE username = $1 ORDER BY user_id`, [username])
         if (candidate.rows[0]) {
-            if(candidate.rows[0].username === 'admin'){
+            if(candidate.rows[0].roles.includes('admin')){
                 throw ApiError.BadRequest('')
             }
             else throw ApiError.ForbiddenRequest(`Пользователь ${username} уже существует`)
@@ -24,7 +24,7 @@ class UserService {
         const user = await db.query(`INSERT INTO public."Users" (user_id, username, password, registration_date) VALUES (default, $1, $2, $3) RETURNING *`, [username, hashPassword, registration_date])
         const userModel = new UserModel(user.rows[0]);
         const token = tokenService.generateTokens({...userModel});
-        await tokenService.saveToken(userModel.id, token);
+        await tokenService.saveToken(userModel.user_id, token);
 
         return {token, user: userModel}
     }
@@ -44,7 +44,7 @@ class UserService {
         }
         const userModel = new UserModel(user.rows[0]);
         const token = tokenService.generateTokens({...userModel});
-        await tokenService.saveToken(userModel.id, token);
+        await tokenService.saveToken(userModel.user_id, token);
         const User = {
             user_id: user.rows[0].user_id,
             username: user.rows[0].username,
@@ -70,13 +70,12 @@ class UserService {
             FROM public."Users"
             WHERE user_id = $1 
             ORDER BY user_id`, [user_id])
-
-        if(user.rows != '' && user.rows[0].email != null){
+        if(user.rows.length > 0 && user.rows[0].email != null){
             const email = await db.query(
                 `SELECT email
                 FROM public."Emails"
                 WHERE email_id = $1`, [user.rows[0].email])
-            user.rows[0].email = email
+            user.rows[0].email = email.rows[0].email
         }
         return user.rows[0]
     }
@@ -125,9 +124,24 @@ class UserService {
             throw ApiError.BadRequest(`Роли не должны быть пустыми`)
         }
         if(user_id === id || roles.includes("admin") ) {
-            const user = await db.query(`UPDATE public."Users" SET username = $2, name = $3, surname = $4, roles = $5 
-            WHERE user_id = $1 
-            RETURNING *`, [id, username, name, surname, newRoles])
+            var user = {}
+            const checkEmail = await db.query(`SELECT email_id FROM public."Emails" WHERE email = $1`, [email])
+            if(checkEmail.rows.length == 0 && email != "" && email != null){
+                const newEmail = await db.query(`INSERT INTO public."Emails" (email_id, email) VALUES (default, $1) RETURNING *`, [email])
+                user = await db.query(`UPDATE public."Users" SET username = $2, name = $3, surname = $4, roles = $5, fk_email_id = $6 
+                WHERE user_id = $1 
+                RETURNING *`, [id, username, name, surname, newRoles, newEmail.rows[0].email_id])
+            }
+            else if(checkEmail.rows.length > 0 && email != "" && email != null){
+                user = await db.query(`UPDATE public."Users" SET username = $2, name = $3, surname = $4, roles = $5, fk_email_id = $6 
+                WHERE user_id = $1 
+                RETURNING *`, [id, username, name, surname, newRoles, checkEmail.rows[0].email_id])
+            }
+            else if(email == "" || email == null){
+                user = await db.query(`UPDATE public."Users" SET username = $2, name = $3, surname = $4, roles = $5, fk_email_id = $6 
+                WHERE user_id = $1 
+                RETURNING *`, [id, username, name, surname, newRoles, null])
+            }
             const tokenData = await db.query(
                 `SELECT token
                 FROM public."Tokens"
@@ -138,7 +152,7 @@ class UserService {
                 if(user_id === id){
                     const userModel = new UserModel(user.rows[0]);
                     const newToken = await tokenService.generateTokens({...userModel});
-                    await tokenService.saveToken(userModel.id, newToken);
+                    await tokenService.saveToken(userModel.user_id, newToken);
                     return newToken
                 }
             }
@@ -172,7 +186,7 @@ class UserService {
             console.log(user)
             const userModel = new UserModel(user.rows[0]);
             const token = tokenService.generateTokens({...userModel});
-            await tokenService.saveToken(userModel.id, token);
+            await tokenService.saveToken(userModel.user_id, token);
             return {token: token}
         }
         else{
@@ -275,7 +289,7 @@ class UserService {
                 WHERE user_id = $1`, [user_id])
         const saved_articles = user.rows[0].fk_saved_articles_id
         var query = `SELECT * FROM public."Articles" WHERE `
-        if(saved_articles.length && saved_articles.length > 0){
+        if(saved_articles && saved_articles.length > 0){
             var tempQuery = ``
             saved_articles.forEach(id =>{
                 if(tempQuery){
@@ -293,7 +307,7 @@ class UserService {
     }
     async getArticlesToChange(user_id, roles){
         var articles
-        if(roles.includes("admin")){
+        if(roles.includes("admin") || roles.includes("moderator")){
             articles = await db.query(`SELECT * FROM public."Articles" ORDER BY article_id`)
         }
         else{

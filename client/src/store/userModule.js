@@ -70,11 +70,11 @@ export const userModule = {
                 await axios.post(url, {username: input.username, password: input.password}, { withCredentials: true })
                 .then(res => {
                     data = res
-                    console.log(data)
                 })
                 .then(res => {
                         if(data.status === 200){
                             data = data.data
+                            console.log(data)
                             this.dispatch('user/SetUser', data.user)
                             this.dispatch('user/SetRoles')
                             this.dispatch('user/SetPermission')
@@ -101,10 +101,10 @@ export const userModule = {
                 await axios
                 .post(url, {username: input.username, password: input.password}, { 
                     withCredentials: true, 
-                    //headers: { username: input.username, password: input.password }
                 })
                 .then(res => {
                     data = res.data
+                    console.log(data)
                 });
                 this.dispatch('user/SetUser', data.user)
                 this.dispatch('user/SetRoles')
@@ -198,7 +198,9 @@ export const userModule = {
                 console.log(user)
                 await axios.put(url, {user}, {withCredentials: true })
             }
-            catch(e){}
+            catch(e){
+                return "Это имя пользователя уже занято"
+            }
         },
         async EditPass({state, commit, rootState}, input){
             const url = (rootState.URL.USER + `/edit_password`)

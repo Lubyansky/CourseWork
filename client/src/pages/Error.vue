@@ -17,7 +17,9 @@ export default {
         font-size: 32px;
         text-align: center;
         padding-top: 180px;
-        padding-bottom:240px
+        padding-bottom:240px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     .error__container{

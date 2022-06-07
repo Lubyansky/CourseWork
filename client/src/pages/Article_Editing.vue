@@ -126,7 +126,7 @@
       </div>
       <div class = "editing__control">
         <kiku-button v-if="!isEdit" class="editing__button-add" @click.prevent="AddArticle" title = "Добавить статью">Добавить</kiku-button>
-        <div v-else>
+        <div class = "button_control" v-else>
           <kiku-button @click.prevent="UpdateArticle" title = "Сохранить статью">Сохранить</kiku-button>
           <kiku-button :isDelete="true" @click.prevent="DeleteArticle" title = "Удалить статью">Удалить</kiku-button>
         </div>
@@ -139,7 +139,7 @@
 
 <script>
 import axios from 'axios'
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 import jQuery from 'jquery';
 import autosize from 'autosize';
 import articleMixin from "@/mixins/articleMixin"
@@ -178,6 +178,9 @@ export default {
     })
   },
   methods:{
+    ...mapMutations({
+        setArticleEdit: 'setArticleEdit'
+    }),
     async loadingFile(event){
       this.picture = event.target.files[0];
     },
@@ -220,7 +223,7 @@ export default {
       }
     },
     async AddArticle(){
-      let formData = new FormData();
+      //let formData = new FormData();
       /*formData.set('article_id', 0);
       formData.append('userS', {sex:"male", fullName:{firstName:"Вова", secondName:"Владимиров"}, age: 19});
       formData.append('file', this.picture);
@@ -270,27 +273,25 @@ export default {
         }
       })
       
-      article.picture = window.btoa(this.picture)
+      /*article.picture = window.btoa(this.picture)
       const url = (this.URL.API + `/upload_pictures_article`);
       await axios.post(url, article, 
         {withCredentials: true
-      })
-      /*
-      var article = {}
-      this.Expand(this.article).then(res => {
-        article = res
+      })*/
+      
+      this.Expand(this.article).then(async res => {
+        const url = (this.URL.API + `/add_article`)
+        await axios.post(url, res, { withCredentials: true })
+        .then(res=>{
+          this.success = 'Статья успешно сохранена'
+        })
+        .catch(e => {
+          console.log(e)
+        })
       })
       .catch(e=>console.log(e))
-      const url = (this.URL.API + `/add_article`)
-      await axios.post(url, {article}, { withCredentials: true })
-      .then(res=>{
-        this.success = 'Статья успешно сохранена'
-      })
-      .catch(e => {
-        console.log(e)
-      })
-      
-      this.ResetForm()*/
+    
+      this.ResetForm()
       this.preview = ''
       this.error = ''
     },
@@ -335,21 +336,22 @@ export default {
           this.error = 'Каждый источник должен иметь текст'
         }
       })
-
-      var article = {}
-      this.Expand(this.article).then(res => {
-        article = res
+      const article_id = this.article.info.article_id
+      this.Expand(this.article).then(async res => {
+        const url = (this.URL.API + `/update_article`)
+        res.article_id = article_id
+        await axios.put(url, res, { withCredentials: true })
+        .then(res=>{
+          this.success = 'Статья успешно изменена'
+        })
+        .catch(e => {
+          console.log(e)
+        })
       })
       .catch(e=>console.log(e))
-      const url = (this.URL.API + `/update_article`)
-      console.log(article)
-      await axios.put(url, {article}, {withCredentials: true})
-      .then(res=>{
-        this.success = 'Статья успешно изменена'
-      })
-      .catch()
 
       this.ResetForm()
+      this.isEdit = false
     },
     async DeleteArticle(){
       const url = (this.URL.API + `/delete_article`)
@@ -366,7 +368,7 @@ export default {
     }
   },
   created(){
-        if(!(this.permission.canEditArticles || this.permission.canEditArticles) || this.is_banned){
+        if(!(this.permission.canEditArticles || this.permission.canAddArticles) || this.is_banned){
             this.$router.push('/')
         }
   },
@@ -421,10 +423,10 @@ export default {
       this.article = this.article_edit.article
       this.article.info.description = this.article.info.description.charAt(0).toUpperCase() + this.article.info.description.slice(1)
 
-      this.article_edit = {
+      this.setArticleEdit({
           article: '',
           isEdit: false
-      }
+      })
     }
     this.loading = false
   }
@@ -539,6 +541,7 @@ autosize($('textarea'));
       width: 100%;
     }
     .editing__content__title{
+      margin-bottom: 20px;
       text-align: center;
       font-size: 28px;
     }
@@ -642,5 +645,14 @@ autosize($('textarea'));
       font-size: 18px;
       line-height: 20px;
       color: #1d6923;
+    }
+    @media(max-width: 476px){
+      .button_control{
+        display: flex;
+        flex-flow: column;
+      }
+      .button_delete{
+        margin-top: 20px;
+      }
     }
 </style>

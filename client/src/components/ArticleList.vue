@@ -89,6 +89,7 @@ export default {
     }
     .search__title{
         margin-bottom: 10px;
+        text-align: center;
     }
     .no_articles{
         font-size: 24px;
@@ -143,5 +144,37 @@ export default {
     .button__uncover_all{
         margin-top: 1px;
         background-image: url("@/assets/images/UI/buttons/to_uncover_all.svg");
+    }
+
+    @media(max-width: 640px){
+      .control__button-cover-all{
+        margin-left: 10px;
+      }
+      .articles__list-container{
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+       .articles__search{
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+    @media(max-width: 568px){
+      .articles__article{
+        width: 100%;
+        position: relative;
+        padding-bottom: 92px;
+
+        transition: color 0.3s;
+    }
+    .articles__article::after{
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 1px;
+        top: calc(100% + -55px);
+        background-color: #000000;
+    }
     }
 </style>
